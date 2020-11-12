@@ -1,0 +1,56 @@
+
+followed tutorial: 
+https://github.com/academind/yt-graphql-react-event-booking-api
+https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
+
+
+node v15.1.0
+
+
+
+-- init project --
+
+> npm install
+> create .env file using .env.example as template
+> match project's node version?
+
+
+-- run it --
+
+build js and run:
+> npm start
+
+run ts:
+> npm test
+
+
+=================================================
+
+
+-- TODO --
+
+
+
+
+-- improvements --
+
+typegoose / ts-mongoose ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
