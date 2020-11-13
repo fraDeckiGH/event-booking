@@ -18,6 +18,8 @@
   "homepage": "https://bitbucket.org/fdc95/graphql-react-event-booking#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.4.0",
     "mongoose": "^5.10.13",
     "mongoose-autopopulate": "^0.12.3"
   },
