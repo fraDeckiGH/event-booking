@@ -29,14 +29,13 @@ run ts:
 
 -- TODO --
 
-play w/ graphiql, have a quick look at the docs
-https://www.youtube.com/watch?v=LXTyzk2uud0&list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_&index=3
+
 
 
 -- improvements --
 
 typegoose / ts-mongoose ?
-
+typegraphql ?
 
 
 
