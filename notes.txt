@@ -29,14 +29,17 @@ run ts:
 
 -- TODO --
 
+understand grahpql, graphql.js docs
 
+grahpql vscode ext - make use (of it)
+https://www.howtographql.com/graphql-js/3-a-simple-mutation/
 
 
 -- improvements --
 
-typegoose / ts-mongoose ?
-typegraphql ?
-
+typegoose / ts-mongoose
+typegraphql
+apollo-server (instead of express-graphql)
 
 
 

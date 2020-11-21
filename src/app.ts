@@ -1,7 +1,8 @@
 import express, { Application, json } from "express";
 import { graphqlHTTP } from "express-graphql";
 import { buildSchema } from "graphql";
-import mongoose from "mongoose";
+import mongoose, { Document } from "mongoose";
+import { Event } from "./model/event";
 
 
 const app: Application = express();
@@ -17,18 +18,17 @@ export default app;
 	try {
 		await mongoose.connect(
       `mongodb+srv://${process.env.DB_USER_USER}:${
-        process.env.DB_USER_PSW}@${
-        process.env.DB_NAME}.cqzbt.mongodb.net/${
+        process.env.DB_USER_PSW}@cluster0.cqzbt.mongodb.net/${
         process.env.DB_NAME}?retryWrites=true&w=majority`,
 			{ 
 				useCreateIndex: true,
 				useNewUrlParser: true,
 				useUnifiedTopology: true,
 			}
-		);
+    );
 		// console.log("DB connected to the server");
 	} catch (e) {
-		console.error(e);
+    console.error(e);
 	}
 }());
 
@@ -44,7 +44,6 @@ app.use(
 	// urlencoded({ extended: false }),
 );
 
-const events: any[] = [];
 // graphQL
 app.use(
   '/graphql',
@@ -52,17 +51,17 @@ app.use(
     schema: buildSchema(`
       type Event {
         _id: ID!
-        title: String!
-        description: String!
+        date: Int!
+        description: String
         price: Float!
-        date: String!
+        title: String!
       }
       
       input EventInput {
-        title: String!
-        description: String!
+        date: Int!
+        description: String
         price: Float!
-        date: String!
+        title: String!
       }
       
       
@@ -81,20 +80,31 @@ app.use(
     `),
     
     rootValue: {
-      events: () => {
-        return events;
+      
+      events: async () => {
+        try {
+          return await Event.find();
+        } catch (e) {
+          console.error(e)
+          throw e;
+          // apiError(e, res);
+        }
       },
-      createEvent: (args: any) => {
-        const event = {
-          _id: Math.random().toString(),
-          title: args.eventInput.title,
-          description: args.eventInput.description,
-          price: +args.eventInput.price,
-          date: args.eventInput.date
-        };
-        events.push(event);
-        return event;
-      }
+      
+      createEvent: async (args: any) => {
+        try {
+          const doc: Document = 
+            await new Event(args.eventInput).save();
+          console.log("created doc", doc);
+          
+          return doc;
+        } catch (e) {
+          console.error(e)
+          throw e;
+          // apiError(e, res);
+        }
+      },
+      
     },
     
     graphiql: true
