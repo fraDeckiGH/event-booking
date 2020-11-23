@@ -2,10 +2,10 @@
   "name": "graphql-react-event-booking",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/server.js",
+  "main": "dist/app.js",
   "scripts": {
     "start": "tsc-watch --onSuccess \"node -r dotenv/config .\"",
-    "test": "ts-node-dev -r dotenv/config src/server.ts",
+    "test": "ts-node-dev -r dotenv/config src/app.ts",
     "test0": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
