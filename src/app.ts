@@ -2,7 +2,10 @@ import express, { Application, json } from "express";
 import { graphqlHTTP } from "express-graphql";
 import { buildSchema } from "graphql";
 import mongoose, { Document } from "mongoose";
+import bcrypt from "bcrypt";
 import { Event } from "./model/event";
+import { User } from "./model/user";
+import { REGEX, ResponseId } from "./util";
 
 
 (async function() {
@@ -30,11 +33,25 @@ import { Event } from "./model/event";
           title: String!
         }
         
+        type User {
+          _id: ID!
+          # ? make it:  [Event!]!
+          createdEvents: [Event!]
+          email: String!
+          # password: String
+        }
+        
+        
         input EventInput {
           date: Int!
           description: String
           price: Float!
           title: String!
+        }
+        
+        input UserInput {
+          email: String!
+          password: String!
         }
         
         
@@ -44,7 +61,9 @@ import { Event } from "./model/event";
         
         type RootMutation {
           createEvent(eventInput: EventInput): Event
+          createUser(userInput: UserInput): User
         }
+        
         
         schema {
           query: RootQuery
@@ -54,9 +73,34 @@ import { Event } from "./model/event";
       
       rootValue: {
         
-        events: async () => {
+        createEvent: async (args: any) => {
+          // ! what if "await User..." fails
+          // ? what's the official way of doing this
+          
           try {
-            return await Event.find();
+            // const doc: Document = 
+            //   await new Event(args.eventInput).save();
+            const doc: Document = 
+              await new Event({ 
+                ...args.eventInput,
+                creator: "5fbea02ad01ddc2674d4be14",
+              }).save();
+            console.log("created doc", doc);
+            
+            
+            const user: Document | null = 
+              await User.findById("5fbea02ad01ddc2674d4be14");
+            
+            if (user) {
+              // ? would typegoose fix this
+              (user as any).createdEvents.push(doc._id);
+              
+              await user.save();
+              
+              return doc;
+            } else {
+              throw new Error("user-not-found");
+            }
           } catch (e) {
             console.error(e)
             throw e;
@@ -64,13 +108,43 @@ import { Event } from "./model/event";
           }
         },
         
-        createEvent: async (args: any) => {
+        createUser: async (args: any) => {
+          const { userInput } = args;
+          
+          // ? should this check even be server side
+          if (!(userInput.email).match(REGEX.EMAIL)) {
+            throw new Error("invalid-email");
+          }
+          
           try {
-            const doc: Document = 
-              await new Event(args.eventInput).save();
+            const user: Document | null = 
+              await User.findOne({ email: userInput.email });
+            
+            if (user) {
+              throw new Error(ResponseId.DocAlreadyExists);
+            }
+            
+            const encrypted: string = 
+              await bcrypt.hash(userInput.password, 12);
+            
+            const doc: Document = await new User({
+              ...userInput,
+              password: encrypted,
+            }).save();
             console.log("created doc", doc);
             
             return doc;
+          } catch (e) {
+            console.error(e)
+            throw e;
+            // apiError(e, res);
+          }
+        },
+        
+        
+        events: async () => {
+          try {
+            return await Event.find();
           } catch (e) {
             console.error(e)
             throw e;

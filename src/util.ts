@@ -5,12 +5,12 @@
 
 
 
-/* export const REGEX = Object.freeze({
+export const REGEX = Object.freeze({
 	EMAIL: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-}); */
+});
 
 
-/* export enum ResponseId {
+export enum ResponseId {
 	DocAlreadyExists = "doc-already-exists",
 	DocCreated = "doc-created",
 	DocDeleted = "doc-deleted",
@@ -19,7 +19,7 @@
 	DocsRetrieved = "docs-retrieved",
 	DocUpdated = "doc-updated",
 	Unauthorized = "unauthorized",
-} */
+}
 
 
 /* export function apiError(err: any, res: Response) {

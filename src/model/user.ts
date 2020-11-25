@@ -1,4 +1,4 @@
-// import { REGEX } from "../util";
+import { REGEX } from "../util";
 import mongooseAutopopulate from "mongoose-autopopulate";
 import { Document, model, Schema, Types } from "mongoose";
 
@@ -10,32 +10,27 @@ import { Document, model, Schema, Types } from "mongoose";
 
 
 const schema = new Schema({
-	creator: {
-		// autopopulate: true,
-		ref: 'User',
-		required: true,
-		type: Types.ObjectId,
+	createdEvents: {
+		// default: [],
+		type: [
+			{
+				// autopopulate: true,
+				ref: 'Event',
+				type: Types.ObjectId,
+			}
+		],
 	},
 	
-	date: {
-		required: true,
-		type: Number,
+	email: {
+		match: REGEX.EMAIL,
+		required: true, 
+		type: String, 
+		unique: true, 
 	},
 	
-	description: {
-		// required: true,
-		type: String,
-	},
-	
-	price: {
-		required: true,
-		type: Number,
-	},
-	
-	title: {
-		required: true,
-		type: String,
-    // unique: true,
+	password: { 
+		required: true, 
+		type: String, 
 	},
 	
 	
@@ -97,6 +92,6 @@ const schema = new Schema({
 
 
 
-export const Event = model/* <IUser> */('Event', schema);
+export const User = model/* <IUser> */('User', schema);
 
 
