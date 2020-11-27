@@ -1,5 +1,5 @@
-import { REGEX } from "../util";
-import mongooseAutopopulate from "mongoose-autopopulate";
+import { ModelName, REGEX } from "../util";
+// import mongooseAutopopulate from "mongoose-autopopulate";
 import { Document, model, Schema, Types } from "mongoose";
 
 
@@ -14,8 +14,9 @@ const schema = new Schema({
 		// default: [],
 		type: [
 			{
+				// populate w/ "ref"'s fields
 				// autopopulate: true,
-				ref: 'Event',
+				ref: ModelName.Event,
 				type: Types.ObjectId,
 			}
 		],
@@ -70,7 +71,7 @@ const schema = new Schema({
 	// 	type: String, 
 	// },
 })
-	.plugin(mongooseAutopopulate)
+	// .plugin(mongooseAutopopulate)
 	
 	// https://mongoosejs.com/docs/api/document.html#document_Document-toJSON
 
@@ -92,6 +93,6 @@ const schema = new Schema({
 
 
 
-export const User = model/* <IUser> */('User', schema);
+export const User = model/* <IUser> */(ModelName.User, schema);
 
 

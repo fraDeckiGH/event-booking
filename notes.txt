@@ -30,7 +30,6 @@ run ts:
 -- TODO --
 
 graphql NonNullable refresher
-autopopulate refresher
 
 grahpql vscode ext - make use (of it)
 https://www.howtographql.com/graphql-js/3-a-simple-mutation/

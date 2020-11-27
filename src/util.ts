@@ -1,7 +1,8 @@
+import { Document } from "mongoose";
+
 // utility
 
 // import { Response } from "express";
-
 
 
 
@@ -9,6 +10,11 @@ export const REGEX = Object.freeze({
 	EMAIL: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 });
 
+
+export enum ModelName {
+	Event = "Event",
+	User = "User",
+}
 
 export enum ResponseId {
 	DocAlreadyExists = "doc-already-exists",
@@ -19,6 +25,11 @@ export enum ResponseId {
 	DocsRetrieved = "docs-retrieved",
 	DocUpdated = "doc-updated",
 	Unauthorized = "unauthorized",
+}
+
+
+export interface IDocument extends Document {
+  [key: string]: any;
 }
 
 

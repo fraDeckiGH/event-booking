@@ -1,6 +1,7 @@
 // import { REGEX } from "../util";
-import mongooseAutopopulate from "mongoose-autopopulate";
+// import mongooseAutopopulate from "mongoose-autopopulate";
 import { Document, model, Schema, Types } from "mongoose";
+import { ModelName } from "../util";
 
 
 /* export interface IUser extends Document {
@@ -11,8 +12,9 @@ import { Document, model, Schema, Types } from "mongoose";
 
 const schema = new Schema({
 	creator: {
+		// populate w/ "ref"'s fields
 		// autopopulate: true,
-		ref: 'User',
+		ref: ModelName.User,
 		required: true,
 		type: Types.ObjectId,
 	},
@@ -75,7 +77,7 @@ const schema = new Schema({
 	// 	type: String, 
 	// },
 })
-	.plugin(mongooseAutopopulate)
+	// .plugin(mongooseAutopopulate)
 	
 	// https://mongoosejs.com/docs/api/document.html#document_Document-toJSON
 
@@ -97,6 +99,6 @@ const schema = new Schema({
 
 
 
-export const Event = model/* <IUser> */('Event', schema);
+export const Event = model/* <IUser> */(ModelName.Event, schema);
 
 
