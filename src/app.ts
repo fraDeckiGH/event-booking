@@ -1,11 +1,10 @@
-import express, { Application, json, NextFunction } from "express";
+import express, { Application, json } from "express";
 import { graphqlHTTP } from "express-graphql";
 import { buildSchema } from "graphql";
 import mongoose, { Document } from "mongoose";
-import bcrypt from "bcrypt";
 import { Event } from "./model/event";
 import { User } from "./model/user";
-import { IDocument, REGEX, ResponseId } from "./util";
+import { IDocument } from "./util";
 
 
 (async function() {
@@ -27,25 +26,24 @@ import { IDocument, REGEX, ResponseId } from "./util";
       schema: buildSchema(`
         type Event {
           _id: ID!
-          date: Int!
+          creator: User!
+          date: Float
           description: String
-          price: Float!
+          price: Float
           title: String!
         }
         
         type User {
           _id: ID!
-          # ? make it:  [Event!]!
           createdEvents: [Event!]
           email: String!
-          # password: String
         }
         
         
         input EventInput {
-          date: Int!
+          date: String
           description: String
-          price: Float!
+          price: Float
           title: String!
         }
         
@@ -57,6 +55,7 @@ import { IDocument, REGEX, ResponseId } from "./util";
         
         type RootQuery {
           events: [Event!]!
+          users: [User!]!
         }
         
         type RootMutation {
@@ -74,91 +73,52 @@ import { IDocument, REGEX, ResponseId } from "./util";
       rootValue: {
         
         createEvent: async (args: any) => {
-          // ? what's the official way of doing this
-          try {
-            const user: IDocument | null = 
-              await User.findById("5fc1421dfabc2b20243b8354");
-            
-            if (!user) {
-              throw new Error("user-not-found");
-            }
-            
-            const doc: Document = new Event({ 
-              ...args.eventInput,
-              creator: "5fc1421dfabc2b20243b8354",
-            });
-            user.createdEvents.push(doc._id);
-            
-            
-            // const promise1 = Promise.reject("rejection of mine");
-            const promise3 = new Promise((resolve, reject) => {
-              setTimeout(reject, 1000, new Error('foo'));
-            });
-            await Promise.all([
-              promise3,
-              user.save(),
-              doc.save(),
-            ]);
-            
-            
-            console.log("created doc", doc);
-            return doc;
-            
-          } catch (e) {
-            console.error(e)
-            throw e;
-            // apiError(e, res);
+          // ? use 'exists()' instead
+          const user: Document | null = 
+            await User.findById("5fdf80aeea5d943ddc4f5db8");
+          
+          if (!user) {
+            throw new Error("user-not-found");
           }
+          
+          const doc: Document = new Event({ 
+            ...args.eventInput,
+            creator: "5fdf80aeea5d943ddc4f5db8",
+          });
+          
+          // console.log("created doc", doc);
+          return await doc.save();
         },
         
         
         createUser: async (args: any) => {
-          const { email, password } = args.userInput;
+          const doc: IDocument = 
+            await new User(args.userInput).save()
+          // console.log(await bcrypt.compare("plainPsw", doc.password))
           
-          // ? should this check even be server side
-          if (!(email).match(REGEX.EMAIL)) {
-            throw new Error("invalid-email");
-          }
-          
-          try {
-            const user: Document | null = 
-              await User.findOne({ email: email });
-            
-            if (user) {
-              throw new Error(ResponseId.DocAlreadyExists);
-            }
-            
-            const encrypted: string = 
-              await bcrypt.hash(password, 12);
-            
-            const doc: Document = await new User({
-              ...args.userInput,
-              password: encrypted,
-            }).save();
-            console.log("created doc", doc);
-            
-            return doc;
-          } catch (e) {
-            console.error(e)
-            throw e;
-            // apiError(e, res);
-          }
+          return doc;
         },
         
         
         events: async () => {
-          try {
-            return await Event.find();
-          } catch (e) {
-            console.error(e)
-            throw e;
-            // apiError(e, res);
-          }
+          return (
+            await Event.find()
+              .lean({ autopopulate: true })
+          );
+        },
+        
+        users: async () => {
+          const docs = await User.find()
+            .lean()
+            .populate("createdEvents")
+          
+          // console.log(docs);
+          return docs;
         },
         
       },
       
-      graphiql: true
+      graphiql: true,
     })
   );
   

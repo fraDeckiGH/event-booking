@@ -29,7 +29,7 @@ run ts:
 
 -- TODO --
 
-graphql NonNullable refresher
+should gQL types mirror perfectly the schemas?
 
 grahpql vscode ext - make use (of it)
 https://www.howtographql.com/graphql-js/3-a-simple-mutation/

@@ -1,104 +1,78 @@
-// import { REGEX } from "../util";
-// import mongooseAutopopulate from "mongoose-autopopulate";
-import { Document, model, Schema, Types } from "mongoose";
-import { ModelName } from "../util";
-
-
-/* export interface IUser extends Document {
-  [key: string]: any;
-} */
-
+import mongooseAutopopulate from "mongoose-autopopulate";
+import { model, Schema, Types } from "mongoose";
+import { ModelName, noFalsy, SchemaTypeOpt } from "../util";
 
 
 const schema = new Schema({
 	creator: {
 		// populate w/ "ref"'s fields
-		// autopopulate: true,
+		autopopulate: true,
 		ref: ModelName.User,
 		required: true,
 		type: Types.ObjectId,
 	},
 	
 	date: {
-		required: true,
-		type: Number,
+		max: SchemaTypeOpt.MaxDate,
+		set: noFalsy,
+		trim: true,
+		type: Date,
 	},
 	
 	description: {
-		// required: true,
+		maxlength: 1000,
+		set: noFalsy,
+		trim: true,
 		type: String,
 	},
 	
 	price: {
-		required: true,
+		// min: 0,
+		max: SchemaTypeOpt.MaxPrice,
+		set: noFalsy,
 		type: Number,
 	},
 	
 	title: {
+		maxlength: 100,
 		required: true,
+		trim: true,
 		type: String,
-    // unique: true,
 	},
 	
-	
-	// *Order
-	
-	// product: {
-	// 	autopopulate: true,
-	// 	ref: 'Product',
-	// 	required: true,
-	// 	type: Types.ObjectId,
-	// },
-	
-	// quantity: {
-	// 	default: 1,
-	// 	type: Number,
-	// },
-	
-	
-	// *Product
-	
-	// img: {
-	// 	type: String,
-	// },
-	
-	
-	// *User
-	
-	// email: { 
-	// 	match: REGEX.EMAIL,
-	// 	required: true, 
-	// 	type: String, 
-	// 	unique: true, 
-	// },
-	
-	// password: { 
-	// 	required: true, 
-	// 	type: String, 
-	// },
+}, {
+	id: false,
+	typePojoToMixed: false, 
 })
-	// .plugin(mongooseAutopopulate)
+	.plugin(mongooseAutopopulate)
 	
 	// https://mongoosejs.com/docs/api/document.html#document_Document-toJSON
 
 	// options to apply when this schema is applied to JSON
 	// e.g API response
-	// .set('toJSON', {
-	// 	// transform: (undefined, ret) => sortSchemaKeys(ret),
-	// 	// useProjection: true,
-	// 	versionKey: false
-	// })
+	.set('toJSON', {
+		// transform: (undefined, ret) => sortSchemaKeys(ret),
+		// useProjection: true,
+		versionKey: false,
+		// virtuals: true,
+	})
 
 	// options to apply when this schema is applied to Object
 	// e.g console.log
-	// .set('toObject', {
-	// 	// transform: (undefined, ret) => sortSchemaKeys(ret),
-	// 	// useProjection: true,
-	// 	versionKey: false
-	// });
+	.set('toObject', {
+		// transform: (undefined, ret) => sortSchemaKeys(ret),
+		// useProjection: true,
+		versionKey: false,
+		// virtuals: true,
+	});
 
 
 
-export const Event = model/* <IUser> */(ModelName.Event, schema);
+export const Event = model(ModelName.Event, schema);
+
+
+
+
+
 
 

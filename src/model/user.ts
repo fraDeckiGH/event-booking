@@ -1,98 +1,107 @@
-import { ModelName, REGEX } from "../util";
-// import mongooseAutopopulate from "mongoose-autopopulate";
-import { Document, model, Schema, Types } from "mongoose";
-
-
-/* export interface IUser extends Document {
-  [key: string]: any;
-} */
-
+import mongooseUniqueValidator from "mongoose-unique-validator";
+import isEmail from 'validator/lib/isEmail';
+import bcrypt from "bcrypt";
+import { IDocument, ModelName } from "../util";
+import { model, Schema } from "mongoose";
 
 
 const schema = new Schema({
-	createdEvents: {
-		// default: [],
-		type: [
-			{
-				// populate w/ "ref"'s fields
-				// autopopulate: true,
-				ref: ModelName.Event,
-				type: Types.ObjectId,
-			}
-		],
-	},
 	
 	email: {
-		match: REGEX.EMAIL,
-		required: true, 
+		required: true,
+		// in case we don't want 'required' anymore 
+		// but still want 'unique'
+		sparse: true,
+		trim: true,
 		type: String, 
-		unique: true, 
+		unique: true,
+		uniqueCaseInsensitive: true,
+		validate: (val: any) => {
+			return isEmail(val);
+		},
 	},
 	
-	password: { 
-		required: true, 
-		type: String, 
+	password: {
+		maxlength: 20,
+		minlength: 8,
+		required: true,
+		trim: true,
+		type: String,
 	},
 	
-	
-	// *Order
-	
-	// product: {
-	// 	autopopulate: true,
-	// 	ref: 'Product',
-	// 	required: true,
-	// 	type: Types.ObjectId,
-	// },
-	
-	// quantity: {
-	// 	default: 1,
-	// 	type: Number,
-	// },
-	
-	
-	// *Product
-	
-	// img: {
-	// 	type: String,
-	// },
-	
-	
-	// *User
-	
-	// email: { 
-	// 	match: REGEX.EMAIL,
-	// 	required: true, 
-	// 	type: String, 
-	// 	unique: true, 
-	// },
-	
-	// password: { 
-	// 	required: true, 
-	// 	type: String, 
-	// },
+}, {
+	id: false,
+	typePojoToMixed: false, 
 })
 	// .plugin(mongooseAutopopulate)
+	// ? virtuals seem to work fine o.o
+	// .plugin(mongooseLeanVirtuals)
+	// * READ to make this plugin work on updates too
+	// https://github.com/blakehaswell/mongoose-unique-validator#find--updates
+	.plugin(mongooseUniqueValidator, 
+		// { message: 'Error, expected {PATH} to be unique.' }
+	)
 	
 	// https://mongoosejs.com/docs/api/document.html#document_Document-toJSON
 
 	// options to apply when this schema is applied to JSON
 	// e.g API response
-	// .set('toJSON', {
-	// 	// transform: (undefined, ret) => sortSchemaKeys(ret),
-	// 	// useProjection: true,
-	// 	versionKey: false
-	// })
+	.set('toJSON', {
+		// transform: (undefined, ret) => sortSchemaKeys(ret),
+		// useProjection: true,
+		versionKey: false,
+		virtuals: true,
+	})
 
 	// options to apply when this schema is applied to Object
 	// e.g console.log
-	// .set('toObject', {
-	// 	// transform: (undefined, ret) => sortSchemaKeys(ret),
-	// 	// useProjection: true,
-	// 	versionKey: false
-	// });
+	.set('toObject', {
+		// transform: (undefined, ret) => sortSchemaKeys(ret),
+		// useProjection: true,
+		versionKey: false,
+		virtuals: true,
+	})
 
 
 
-export const User = model/* <IUser> */(ModelName.User, schema);
+schema.virtual("createdEvents", {
+	ref: ModelName.Event,
+	
+	localField: "_id",
+	foreignField: "creator",
+	
+	// count: true,
+	
+	// If `justOne` is true, 'createdEvents' will be a single doc 
+	// as opposed to an array. `justOne` is false by default.
+	// justOne: false,
+	
+	// Query options, see http://bit.ly/mongoose-query-options
+	// options: { 
+	// 	// limit: 2, 
+	// 	sort: { title: 1, description: -1 }, 
+	// },
+	
+})
+
+
+async function hashPassword(this: IDocument) {
+	// psw is being updated (or new)
+	if (this.isModified('password')) {
+		this.password = await bcrypt.hash(this.password, 12);
+	}
+}
+
+
+// TODO test "findOneAndUpdate"
+// https://mongoosejs.com/docs/middleware.html#notes
+schema.pre("findOneAndUpdate", hashPassword);
+schema.pre("save", hashPassword);
+
+
+
+export const User = model(ModelName.User, schema);
+
+
 
 
