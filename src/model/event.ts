@@ -27,7 +27,7 @@ const schema = new Schema({
 	},
 	
 	price: {
-		// min: 0,
+		min: 0,
 		max: SchemaTypeOpt.MaxPrice,
 		set: noFalsy,
 		type: Number,

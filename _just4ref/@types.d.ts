@@ -1,7 +1,4 @@
-// ? move this file to ./src
-
-
-// packages w/out @types
+// * for packages w/out @types which give problems
 
 // declare module "exampleModuleName";
 // declare module "exampleModuleName2";

@@ -1,0 +1,10 @@
+# https://graphql-code-generator.com/docs/getting-started/codegen-config#available-options
+
+
+# https://graphql-code-generator.com/docs/getting-started/schema-field#supported-configuration-1
+# commentDescriptions: true
+# generates:
+#   src/schema/type.ts:
+#     schema: src/schema/schema.graphql
+#     plugins:
+#       - typescript

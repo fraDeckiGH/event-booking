@@ -4,24 +4,11 @@ https://github.com/academind/yt-graphql-react-event-booking-api
 https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 
-node v15.1.0
+-- init project (locally) --
 
-
-
--- init project --
-
-> npm install
+> match project's node & npm versions (see package.json's "engines")
+> npm i
 > create .env file using .env.example as template
-> match project's node version?
-
-
--- run it --
-
-build js and run:
-> npm start
-
-run ts:
-> npm test
 
 
 =================================================
@@ -29,32 +16,26 @@ run ts:
 
 -- TODO --
 
-should gQL types mirror perfectly the schemas?
 
-grahpql vscode ext - make use (of it)
-https://www.howtographql.com/graphql-js/3-a-simple-mutation/
+train more w/ directives
+split typeDefs & resolvers into more files
+how to add full text search to any db
 
 
 -- improvements --
 
-typegoose / ts-mongoose
-typegraphql
-apollo-server (instead of express-graphql)
+switch to apollo-server? (what about Yoga or the others?)
+.gitignore - remove some entries (eg. 'cra')
 
 
+-- packages --
+
+cors: move to dependencies?
 
 
+-- misc --
 
-
-
-
-
-
-
-
-
-
-
-
+when deploying do I need to(?):
+- remove console logs/errors (search: "logging")
 
 

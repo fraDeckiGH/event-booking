@@ -1,0 +1,59 @@
+
+scalar Currency
+scalar DateTime
+scalar EmailAddress
+scalar NonEmptyString
+scalar ObjectID
+
+# directive @upper on INPUT_FIELD_DEFINITION
+
+
+
+type Event {
+	_id: ObjectID!
+	creator: User!
+	date: DateTime
+	description: NonEmptyString
+	price: Currency
+	title: NonEmptyString! @upper
+}
+
+input EventInput {
+	creator: ObjectID!
+	date: DateTime
+	description: NonEmptyString
+	price: Currency
+	title: NonEmptyString!
+}
+
+
+type User {
+	_id: ObjectID!
+	createdEvents: [Event!]
+	email: EmailAddress!
+}
+
+input UserInput {
+	email: EmailAddress!
+	password: NonEmptyString!
+}
+
+
+
+type Mutation {
+	createEvent(eventInput: EventInput!): Event
+	createUser(userInput: UserInput!): User
+}
+
+type Query {
+	events: [Event!]!
+	users: [User!]!
+}
+
+
+schema {
+	mutation: Mutation
+	query: Query
+}
+
+

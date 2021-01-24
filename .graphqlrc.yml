@@ -1,0 +1,11 @@
+# https://graphql-config.com/usage
+
+# extensions aside this file enables/boosts 
+# the following features:
+# https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql
+
+
+schema: []
+# documents: src/**/*.{graphql, ts, tsx}
+
+

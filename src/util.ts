@@ -28,7 +28,7 @@ export enum ResponseId {
 }
 
 export enum SchemaTypeOpt {
-	MaxDate = "2100",
+	MaxDate = 4102444800000, // 2100
 	MaxPrice = 999999,
 }
 
@@ -38,13 +38,15 @@ export interface IDocument extends Document {
 }
 
 
+export type Maybe<T> = T | null/*  | undefined */
+
+
 /**
  * path's value "falsy"? db won't store the path
  * not needed on 'required' fields
  * @param val 
  */
 export function noFalsy<T>(val: T) {
-	console.log('val: ', val);
 	return val || undefined;
 }
 

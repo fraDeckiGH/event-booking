@@ -1,0 +1,59 @@
+# https://graphql-config.com/usage
+
+# extensions aside this file enables/boosts 
+# the following features:
+# https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql
+
+
+schema: []
+# schema: src/**/*.{gql, graphql, ts, tsx}
+# documents: src/**/*.{gql, graphql, ts, tsx}
+
+extensions:
+  # https://graphql-code-generator.com/docs/getting-started/codegen-config#available-options
+  codegen:
+    # errorsOnly: true
+    # watch: true
+    # https://graphql-code-generator.com/docs/getting-started/schema-field#supported-configuration-1
+    # commentDescriptions: true
+    generates:
+      src/type.ts:
+        schema: src/schema/schema.graphql
+        plugins:
+          # https://graphql-code-generator.com/docs/plugins/typescript
+          - typescript:
+              # maybeValue: <string = T | null>
+              # scalars: <ScalarsMap>
+          # https://graphql-code-generator.com/docs/plugins/typescript-resolvers
+          - typescript-resolvers:
+              mappers:
+                Event: ./model/event#Event
+                EventInput: ./model/event#Event
+                User: ./model/user#User
+                UserInput: ./model/user#User
+              # optionalResolveType: true
+              # scalars: <ScalarsMap>
+              # showUnusedMappers: true
+              # skipTypename: true
+
+
+# scripts when using codegen
+# "old_gql-cgen": "graphql-codegen",
+# "old_test": "concurrently -k \"tsnd --watch src/**/*.graphql  -r dotenv/config .\" \"graphql-codegen -e -w\"",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
