@@ -3,7 +3,6 @@ import { loadFiles, makeExecutableSchema } from "graphql-tools";
 import { prodLogging } from "./util";
 import cors from "cors";
 import express, { json } from "express";
-import mongoose from "mongoose";
 import resolvers from "./resolver/resolver";
 
 

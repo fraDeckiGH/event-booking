@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+// import { Document } from "mongoose";
 // import { Response } from "express";
 
 
@@ -30,9 +30,9 @@ export enum SchemaTypeOpt {
 }
 
 
-export interface IDocument extends Document {
+/* export interface IDocument extends Document {
   [key: string]: any;
-}
+} */
 
 
 export type Maybe<T> = T | null/*  | undefined */

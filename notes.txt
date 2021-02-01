@@ -17,8 +17,6 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 -- TODO --
 
 switch to FaunaDB:
-> see docs
-> create new repo on Github
 > use VS Code ext?
 > go easy on schema validations at 1st, TypegraphQL and 
 	class-validator pkg might help w/ that
