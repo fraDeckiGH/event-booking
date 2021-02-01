@@ -4,17 +4,11 @@
   "description": "",
   "main": "src/app.ts",
   "scripts": {
-    "build": "tsc",
-    "build2": "cpy --parents \"src/**/*.graphql\" dist",
-    
-    "start-old": "tsc-watch --onSuccess \"node -r dotenv/config dist/app.js\"",
+    "build": "tsc && copyfiles -u 1 \"src/**/*.graphql\" dist",
     "start": "node -r dotenv/config dist/app.js",
     
     "dev": "tsnd --rs --watch src/**/*.graphql  -r dotenv/config .",
     "prod": "cross-env NODE_ENV=production  npm start",
-    
-    "start-remote": "node app.js",
-    "start-remote-prod": "NODE_ENV=production  npm run start-remote",
     "": ""
   },
   "engines": {
@@ -33,30 +27,29 @@
     "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "express-graphql": "^0.12.0",
-    "graphql": "^15.4.0",
+    "graphql": "^15.5.0",
     "graphql-scalars": "^1.7.0",
     "graphql-tools": "^7.0.2",
-    "mongoose": "^5.11.13",
+    "mongoose": "^5.11.14",
     "mongoose-autopopulate": "^0.12.3",
     "mongoose-unique-validator": "^2.0.3",
     "validator": "^13.5.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
+    "@types/copyfiles": "^2.4.0",
     "@types/cors": "^2.8.9",
     "@types/express": "^4.17.11",
     "@types/mongoose": "^5.10.3",
     "@types/mongoose-autopopulate": "^0.10.1",
     "@types/mongoose-unique-validator": "^1.0.4",
-    "@types/tsc-watch": "^4.2.0",
     "@types/validator": "^13.1.3",
+    "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
-    "cpy-cli": "^3.1.1",
     "cross-env": "^7.0.3",
     "dotenv": "^8.2.0",
     "graphql-config": "^3.2.0",
     "ts-node-dev": "^1.1.1",
-    "tsc-watch": "^4.2.9",
     "typescript": "^4.1.3"
   }
 }

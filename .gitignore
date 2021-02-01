@@ -348,9 +348,10 @@ dist
 
 ### fdc ###
 
+# _src/
 # build/
 # dist/
-# _src/
+gen/
 
 # local files
 # uploads/*

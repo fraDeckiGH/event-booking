@@ -1,0 +1,10 @@
+{
+	// old
+	"start": "tsc-watch --onSuccess \"node -r dotenv/config dist/app.js\"",
+	// useful?
+	"prod": "cross-env NODE_ENV=production  npm start",
+	
+	// remote (unsure, will know better in the future)
+	"start:remote": "node app.js",
+	"start:remote-prod": "NODE_ENV=production  npm run start:remote",
+}

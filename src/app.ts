@@ -1,15 +1,13 @@
-import express, { json } from "express";
 import { graphqlHTTP } from "express-graphql";
+import { loadFiles, makeExecutableSchema } from "graphql-tools";
+import { prodLogging } from "./util";
+import cors from "cors";
+import express, { json } from "express";
 import mongoose from "mongoose";
 import resolvers from "./resolver/resolver";
-import cors from "cors";
-
-import { mapSchema, getDirectives } from "@graphql-tools/utils";
-import { loadFiles, makeExecutableSchema, MapperKind } from "graphql-tools";
-import { defaultFieldResolver } from "graphql/execution/execute";
-import { GraphQLSchema } from "graphql/type/schema";
 
 
+prodLogging()
 const app = express();
 
 // * middleware
@@ -28,13 +26,8 @@ app.use(
   // urlencoded({ extended: false }),
 );
 
-(async function() {
+!async function() {
   try {
-    const { 
-      upperDirectiveTypeDefs, 
-      upperDirectiveTransformer 
-    } = upperDirective('upper');
-    
     app.use('/graphql', graphqlHTTP({
       // graphiql: { headerEditorEnabled: true },
       // rootValue,
@@ -42,12 +35,8 @@ app.use(
       schema: makeExecutableSchema({
         typeDefs: [
           ...await loadFiles(`${__dirname}/typeDef/*.graphql`),
-          upperDirectiveTypeDefs,
         ],
         resolvers,
-        schemaTransforms: [
-          upperDirectiveTransformer
-        ],
       }),
     }));
     
@@ -72,39 +61,6 @@ app.use(
 	} catch (e) {
     console.error(e);
   }
-}());
-
-
-function upperDirective(directiveName: string) {
-  return {
-    
-    upperDirectiveTypeDefs: `directive @${directiveName} on FIELD_DEFINITION`,
-    
-    upperDirectiveTransformer: (schema: GraphQLSchema) => mapSchema(schema, {
-      [MapperKind.OBJECT_FIELD]: (fieldConfig) => {
-        const directives = getDirectives(schema, fieldConfig);
-        
-        if (directives[directiveName]) {
-          const { resolve = defaultFieldResolver } = fieldConfig;
-          
-          fieldConfig.resolve = async (source: any, args: any, context: any, info: any) => {
-            const result = await resolve(source, args, context, info);
-            
-            if (typeof result === 'string') {
-              return result.toUpperCase();
-            }
-            
-            return result;
-          }
-          
-          return fieldConfig;
-        }
-      }
-    }),
-    
-  };
-}
-
-
+}();
 
 

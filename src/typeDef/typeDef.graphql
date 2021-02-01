@@ -5,8 +5,6 @@ scalar EmailAddress
 scalar NonEmptyString
 scalar ObjectID
 
-# directive @upper on INPUT_FIELD_DEFINITION
-
 
 
 type Event {
@@ -15,7 +13,7 @@ type Event {
 	date: DateTime
 	description: NonEmptyString
 	price: Currency
-	title: NonEmptyString! @upper
+	title: NonEmptyString!
 }
 
 input EventInput {

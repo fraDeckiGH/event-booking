@@ -16,26 +16,29 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 -- TODO --
 
+switch to FaunaDB:
+> see docs
+> create new repo on Github
+> use VS Code ext?
+> go easy on schema validations at 1st, TypegraphQL and 
+	class-validator pkg might help w/ that
 
-train more w/ directives
-split typeDefs & resolvers into more files
-how to add full text search to any db
+
+-- TODO later on --
+
+use typegraphQL?
+auth w/ Firebase (update .gitignore)
 
 
 -- improvements --
 
 switch to apollo-server? (what about Yoga or the others?)
-.gitignore - remove some entries (eg. 'cra')
 
 
 -- packages --
 
-cors: move to dependencies?
-
-
--- misc --
-
-when deploying do I need to(?):
-- remove console logs/errors (search: "logging")
+move to dependencies?:
+copyfiles
+cors (usage code edits needed if it stays as devDep)
 
 

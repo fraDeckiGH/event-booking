@@ -1,7 +1,4 @@
 import { Document } from "mongoose";
-
-// utility
-
 // import { Response } from "express";
 
 
@@ -48,6 +45,16 @@ export type Maybe<T> = T | null/*  | undefined */
  */
 export function noFalsy<T>(val: T) {
 	return val || undefined;
+}
+
+
+export function prodLogging() {
+	if (process.env.NODE_ENV === 'production') {
+		// console.error = () => {}
+		console.log = () => {}
+		
+		// reminder: there are others
+	}
 }
 
 
