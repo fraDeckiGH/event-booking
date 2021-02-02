@@ -353,6 +353,11 @@ dist
 # dist/
 gen/
 
+# temp, remove when finished
+Mevent.ts
+Mresolver.ts
+Muser.ts
+
 # local files
 # uploads/*
 # !uploads/readme.txt
