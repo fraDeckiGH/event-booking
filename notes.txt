@@ -24,7 +24,7 @@ switch to FaunaDB:
 
 -- TODO later on --
 
-use typegraphQL?
+use typegraphQL (only classes allowed)?
 auth w/ Firebase (update .gitignore)
 
 

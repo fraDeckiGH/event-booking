@@ -10,7 +10,7 @@
 # 
 # Project technologies
 # 
-### BitBucket ###
+### BitBucket ### (remove?)
 ### cra ### (removed)
 ### Node ###
 ### react ### (removed)
@@ -353,7 +353,7 @@ dist
 # dist/
 gen/
 
-# temp, remove when finished
+# remove/move to _just4ref when done transitioning to Fauna
 Mevent.ts
 Mresolver.ts
 Muser.ts
@@ -361,8 +361,6 @@ Muser.ts
 # local files
 # uploads/*
 # !uploads/readme.txt
-
-
 
 
 

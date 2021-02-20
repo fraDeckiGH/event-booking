@@ -1,0 +1,18 @@
+# https://prettier.io/docs/en/options.html
+
+# endOfLine: "auto"
+insertPragma: true
+# printWidth: 60
+# requirePragma: true
+useTabs: true
+
+
+
+
+
+
+
+
+
+
+
