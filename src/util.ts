@@ -1,62 +1,56 @@
+/** @format */
+
 // import { Document } from "mongoose";
 // import { Response } from "express";
 
-
-
 export const REGEX = Object.freeze({
-	EMAIL: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
+  EMAIL: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
 });
 
-
 export enum ModelName {
-	Event = "Event",
-	User = "User",
+  Event = "Event",
+  User = "User",
 }
 
 export enum ResponseId {
-	DocAlreadyExists = "doc-already-exists",
-	DocCreated = "doc-created",
-	DocDeleted = "doc-deleted",
-	DocNotFound = "doc-not-found",
-	DocRetrieved = "doc-retrieved",
-	DocsRetrieved = "docs-retrieved",
-	DocUpdated = "doc-updated",
-	Unauthorized = "unauthorized",
+  DocAlreadyExists = "doc-already-exists",
+  DocCreated = "doc-created",
+  DocDeleted = "doc-deleted",
+  DocNotFound = "doc-not-found",
+  DocRetrieved = "doc-retrieved",
+  DocsRetrieved = "docs-retrieved",
+  DocUpdated = "doc-updated",
+  Unauthorized = "unauthorized",
 }
 
 export enum SchemaTypeOpt {
-	MaxDate = 4102444800000, // 2100
-	MaxPrice = 999999,
+  MaxDate = 4102444800000, // 2100
+  MaxPrice = 999999,
 }
-
 
 /* export interface IDocument extends Document {
   [key: string]: any;
 } */
 
-
-export type Maybe<T> = T | null/*  | undefined */
-
+export type Maybe<T> = T | null | undefined;
 
 /**
  * path's value "falsy"? db won't store the path
  * not needed on 'required' fields
- * @param val 
+ * @param val
  */
 export function noFalsy<T>(val: T) {
-	return val || undefined;
+  return val || undefined;
 }
-
 
 export function prodLogging() {
-	if (process.env.NODE_ENV === 'production') {
-		// console.error = () => {}
-		console.log = () => {}
-		
-		// reminder: there are others
-	}
-}
+  if (process.env.NODE_ENV === "production") {
+    // console.error = () => {}
+    console.log = () => {};
 
+    // reminder: there are others
+  }
+}
 
 /* export function apiError(err: any, res: Response) {
 	console.error(err);
@@ -66,11 +60,9 @@ export function prodLogging() {
 	});
 } */
 
-
 /* export function makeString<T>(val: T) {
 	return val + "";
 } */
-
 
 /* export function sortSchemaKeys(ret: any) {
 	// https://mongoosejs.com/docs/api/document.html#document_Document-toJSON
@@ -90,23 +82,3 @@ export function prodLogging() {
 	
 	return newObj;
 } */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

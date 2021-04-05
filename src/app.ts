@@ -1,12 +1,21 @@
+/** @format */
+
 import { graphqlHTTP } from "express-graphql";
 import { loadFiles, makeExecutableSchema } from "graphql-tools";
-import { prodLogging } from "./util";
+
+import { Maybe, prodLogging } from "./util";
 import cors from "cors";
 import express, { json } from "express";
 import resolvers from "./resolver/resolver";
+import faunadb /* , { query as q } */ from "faunadb";
+
+// TODO TypeGraphQL: finalize removal/substitution
+// import reflectMetadata from "reflect-metadata";
+// import "reflect-metadata";
+// import typeGraphql from "type-graphql";
 
 
-prodLogging()
+prodLogging();
 const app = express();
 
 // * middleware
@@ -16,50 +25,39 @@ app.use(
   // https://github.com/expressjs/compression
   // compress all responses
   // compression(),
-  
+
   // Apollo Studio
   cors(),
-  
+
   // bodyParser
-  json(),
+  json()
   // urlencoded({ extended: false }),
 );
 
-!async function() {
+!(async function () {
   try {
-    app.use('/graphql', graphqlHTTP({
-      // graphiql: { headerEditorEnabled: true },
-      // rootValue,
-      // pretty: true,
-      schema: makeExecutableSchema({
-        typeDefs: [
-          ...await loadFiles(`${__dirname}/typeDef/*.graphql`),
-        ],
-        resolvers,
-      }),
-    }));
-    
-    // * db connection
-    const { 
-      DB_USER_USER, DB_USER_PSW, DB_NAME
-    } = process.env;
-    
-		await mongoose.connect(
-      `mongodb+srv://${DB_USER_USER}:${
-        DB_USER_PSW}@cluster0.cqzbt.mongodb.net/${
-        DB_NAME}?retryWrites=true&w=majority`,
-			{ 
-        useCreateIndex: true,
-				useNewUrlParser: true,
-				useUnifiedTopology: true,
-			}
+    app.use(
+      "/graphql",
+      graphqlHTTP({
+        context: {
+          // * db connection
+          client: new faunadb.Client({
+            secret: <string>process.env.FAUNADB_SERVER_SECRET,
+          }),
+        },
+        // graphiql: { headerEditorEnabled: true },
+        // rootValue,
+        // pretty: true,
+        schema: makeExecutableSchema({
+          typeDefs: [...(await loadFiles(`${__dirname}/typeDef/*.graphql`))],
+          resolvers,
+        }),
+      })
     );
-    
+
     // * server start
     app.listen(4000);
-	} catch (e) {
+  } catch (e) {
     console.error(e);
   }
-}();
-
-
+})();

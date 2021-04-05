@@ -16,15 +16,12 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 -- TODO --
 
-switch to FaunaDB:
-> use VS Code ext?
-> go easy on schema validations at 1st, TypegraphQL and 
+FaunaDB
+> go easy on schema validations at 1st, 
 	class-validator pkg might help w/ that
-
 
 -- TODO later on --
 
-use typegraphQL (only classes allowed)?
 auth w/ Firebase (update .gitignore)
 
 

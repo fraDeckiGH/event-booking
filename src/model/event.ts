@@ -1,78 +1,30 @@
-import mongooseAutopopulate from "mongoose-autopopulate";
-import { model, Schema, Types } from "mongoose";
-import { ModelName, noFalsy, SchemaTypeOpt } from "../util";
+/** @format */
 
+// TODO TypeGraphQL: finalize removal/substitution
+// import reflectMetadata from "reflect-metadata";
+/* import "reflect-metadata";
+import typeGraphql, { Field, ID, ObjectType } from "type-graphql";
 
-const schema = new Schema({
-	creator: {
-		// populate w/ "ref"'s fields
-		autopopulate: true,
-		ref: ModelName.User,
-		required: true,
-		type: Types.ObjectId,
-	},
+import { User } from "./user";
+
+@ObjectType()
+class Event {
+  @Field(type => ID)
+  _id: string;
 	
-	date: {
-		max: SchemaTypeOpt.MaxDate,
-		set: noFalsy,
-		trim: true,
-		type: Date,
-	},
+	@Field(type => User)
+	creator: User;
 	
-	description: {
-		maxlength: 1000,
-		set: noFalsy,
-		trim: true,
-		type: String,
-	},
+	@Field({ nullable: true })
+	// date: Date; // ? DateTime
+	date?: any;
 	
-	price: {
-		min: 0,
-		max: SchemaTypeOpt.MaxPrice,
-		set: noFalsy,
-		type: Number,
-	},
+	@Field({ nullable: true })
+	description?: string;
 	
-	title: {
-		maxlength: 100,
-		required: true,
-		trim: true,
-		type: String,
-	},
+	@Field(type => Float, { nullable: true })
+	price?: number;
 	
-}, {
-	id: false,
-	typePojoToMixed: false, 
-})
-	.plugin(mongooseAutopopulate)
-	
-	// https://mongoosejs.com/docs/api/document.html#document_Document-toJSON
-
-	// options to apply when this schema is applied to JSON
-	// e.g API response
-	.set('toJSON', {
-		// transform: (undefined, ret) => sortSchemaKeys(ret),
-		// useProjection: true,
-		versionKey: false,
-		// virtuals: true,
-	})
-
-	// options to apply when this schema is applied to Object
-	// e.g console.log
-	.set('toObject', {
-		// transform: (undefined, ret) => sortSchemaKeys(ret),
-		// useProjection: true,
-		versionKey: false,
-		// virtuals: true,
-	});
-
-
-
-export const Event = model(ModelName.Event, schema);
-
-
-
-
-
-
-
+	@Field()
+	title: string;
+} */
