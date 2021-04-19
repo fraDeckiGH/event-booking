@@ -1,54 +1,85 @@
-
 scalar Currency
 scalar DateTime
 scalar EmailAddress
+scalar JSON
+# scalar JSONObject
 scalar NonEmptyString
-scalar ObjectID
+scalar PositiveInt
+scalar Timestamp
 
+interface Node {
+  id: ID!
+	ts: Timestamp! # out of place here?
+}
 
-
-type Event {
-	_id: ObjectID!
+type Event implements Node {
+	id: ID!
+	ts: Timestamp!
 	creator: User!
-	date: DateTime
-	description: NonEmptyString
-	price: Currency
+	date: DateTime!
+	description: NonEmptyString!
+	price: Currency!
 	title: NonEmptyString!
 }
-
 input EventInput {
-	creator: ObjectID!
+	creator: ID!
 	date: DateTime
 	description: NonEmptyString
 	price: Currency
 	title: NonEmptyString!
 }
 
-
-type User {
-	_id: ObjectID!
-	createdEvents: [Event!]
+type User implements Node {
+	id: ID!
+	ts: Timestamp!
+	# createdEvents: [Event!]
 	email: EmailAddress!
+	name: NonEmptyString!
 }
-
 input UserInput {
 	email: EmailAddress!
+	name: NonEmptyString!
 	password: NonEmptyString!
 }
 
+interface Response {
+  errorCode: NonEmptyString
+}
+interface ListResponse {
+  errorCode: NonEmptyString
+  page: Page
+}
 
+type EventResponse implements Response {
+  errorCode: NonEmptyString
+  node: [Event!]
+}
+type UserResponse implements Response {
+  errorCode: NonEmptyString
+  node: [User!]
+}
+type UserListResponse implements ListResponse {
+  errorCode: NonEmptyString
+	page: Page
+  node: [User!]
+}
+
+type Page {
+	cursorAfter: JSON
+}
+input PageInput {
+	cursorAfter: JSON
+	size: PositiveInt
+}
 
 type Mutation {
-	createEvent(eventInput: EventInput!): Event
-	createUser(userInput: UserInput!): User
+	createEvent(input: [EventInput!]!): EventResponse!
+	createUser(input: [UserInput!]!): UserResponse!
 }
-
 type Query {
-	events: [Event!]!
-	users: [User!]!
+	listEvent: EventResponse!
+	listUser(page: PageInput): UserListResponse!
 }
-
-
 schema {
 	mutation: Mutation
 	query: Query

@@ -9,12 +9,6 @@ import express, { json } from "express";
 import resolvers from "./resolver/resolver";
 import faunadb /* , { query as q } */ from "faunadb";
 
-// TODO TypeGraphQL: finalize removal/substitution
-// import reflectMetadata from "reflect-metadata";
-// import "reflect-metadata";
-// import typeGraphql from "type-graphql";
-
-
 prodLogging();
 const app = express();
 
