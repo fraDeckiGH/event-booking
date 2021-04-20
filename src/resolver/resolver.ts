@@ -153,6 +153,9 @@ export default {
       const { page } = args;
       const { client } = ctx;
       
+      const collectionName = "user";
+      const indexName = "user";
+      
       const fieldMap: any = fieldsMap(info, {
         path: "node",
       });
@@ -165,16 +168,21 @@ export default {
       });
       
       
+      // ! ERO QUI, FINIRE DI TESTARE
       const ParseCursor = ({ 
-        collectionName, cursor 
+        collectionName, cursorWrap
       }: { 
         collectionName: string, 
-        cursor: any[], 
+        cursorWrap: {
+          cursor: any[],
+          cursor_id: string,
+        }, 
       }) => {
-        console.log("ParseCursor()", cursor)
-        if (cursor) {
+        console.log("ParseCursor()", cursorWrap)
+        const { cursor, cursor_id } = cursorWrap;
+        if (cursorWrap) {
           cursor[cursor.length - 1] = 
-            Ref(Collection(collectionName), cursor[cursor.length - 1]);
+            Ref(Collection(collectionName), cursor_id);
           return cursor;
         }
       }
@@ -186,45 +194,48 @@ export default {
           
           Let(
             {
-              mapResult: 
-                q.Map(
-                  Paginate(
-                    Match(Index("user")),
-                    { 
-                      after: ParseCursor({ 
-                        cursor: page.cursorAfter, 
-                        collectionName: "user", 
-                      }),
-                      size: page.size, 
-                    }
+              page: q.Map(
+                Paginate(
+                  Match(Index(indexName), 0),
+                  { 
+                    after: ParseCursor({ 
+                      cursorWrap: page.cursorAfter, 
+                      collectionName: collectionName, 
+                    }),
+                    size: page.size, 
+                  }
+                ),
+                Lambda(
+                  indexFields,
+                  fieldMap
+                )
+              ),
+              page_after: Select("after", Var("page"), ""),
+              pageRepack: {
+                data: Select("data", Var("page")),
+                after: {
+                  cursor: Var("page_after"),
+                  cursor_id: Select(
+                    [indexFields.length, "id"], 
+                    Var("page_after"), 
+                    // TODO put inside a global variable
+                    ""
                   ),
-                  Lambda(
-                    indexFields,
-                    fieldMap
-                  )
-                ),
-              manipulatedResult: {
-                data: Var("mapResult"),
-                after: Select(
-                  ["after", indexFields.length, "id"], 
-                  Var("mapResult"), 
-                  // TODO put inside a global variable
-                  ""
-                ),
+                },
               }
             },
-            Var('manipulatedResult')
+            Var("pageRepack")
           )
           
         );
         
-        // console.log("res", res)
+        console.log("res", res)
         // console.log("res.data", res.data)
         return {
           page: {
             cursorAfter: res.after,
           },
-          node: res.data.data,
+          node: res.data,
         };
       } catch (e) {
         console.error("catch e", e)
