@@ -35,7 +35,7 @@ app.use(
       graphqlHTTP({
         context: {
           // * db connection
-          client: new faunadb.Client({
+          db: new faunadb.Client({
             secret: <string>process.env.FAUNADB_SERVER_SECRET,
           }),
         },

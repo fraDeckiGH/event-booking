@@ -1,11 +1,42 @@
 /** @format */
 
-// import { Document } from "mongoose";
+import faunadb, { query as q } from "faunadb";
 // import { Response } from "express";
 
-export const REGEX = Object.freeze({
+const {
+  Abort,
+  Add,
+  Call,
+  Collection,
+  Collections,
+  Contains,
+  Create,
+  Do,
+  Documents,
+  Exists,
+  Get,
+  Identity,
+  If,
+  Index,
+  Join,
+  Lambda,
+  Let,
+  Match,
+  Not,
+  Now,
+  Paginate,
+  Ref,
+  Select,
+  Subtract,
+  ToArray,
+  Update,
+  Var,
+} = q;
+
+
+/* export const REGEX = Object.freeze({
   EMAIL: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
-});
+}); */
 
 export enum ModelName {
   Event = "Event",
@@ -28,11 +59,7 @@ export enum SchemaTypeOpt {
   MaxPrice = 999999,
 }
 
-/* export interface IDocument extends Document {
-  [key: string]: any;
-} */
-
-export type Maybe<T> = T | null | undefined;
+export type Maybe<T> = T/*  | null */ | undefined;
 
 /**
  * path's value "falsy"? db won't store the path
@@ -65,13 +92,6 @@ export function prodLogging() {
 } */
 
 /* export function sortSchemaKeys(ret: any) {
-	// https://mongoosejs.com/docs/api/document.html#document_Document-toJSON
-	// (scroll a bit to the bottom)
-	
-	// console.log("doc", doc); // gives error
-	// console.log("ret", ret);
-	// console.log("opts", opts);
-	
 	let newObj: any = {};
 	
 	Object.keys(ret)
@@ -82,3 +102,30 @@ export function prodLogging() {
 	
 	return newObj;
 } */
+
+
+
+
+function ParseCursor({ 
+  collectionName, cursorWrap/* , query: q */
+}: { 
+  collectionName: string, 
+  cursorWrap: {
+    cursor: any[],
+    cursor_id: string,
+  }, 
+  // query?: faunadb.Expr,
+}) {
+  console.log("ParseCursor()", cursorWrap)
+  if (cursorWrap) {
+    const { cursor, cursor_id } = cursorWrap;
+    cursor[cursor.length - 1] = 
+      Ref(Collection(collectionName), cursor_id);
+    return cursor;
+  }
+}
+
+
+export {
+  ParseCursor,
+}

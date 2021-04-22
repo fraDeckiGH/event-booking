@@ -2,11 +2,12 @@
 
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
+import { ParseCursor } from "../util";
 // import { Event } from "../model/event";
 // import { User } from "../model/user";
 
 type Context = {
-  client: faunadb.Client;
+  db: faunadb.Client;
 };
 const {
   Abort,
@@ -48,9 +49,9 @@ export default {
       info: any
     ) => {
       const { jsonInput } = args;
-      const { client } = ctx;
+      const { db } = ctx;
 
-      client.query(
+      db.query(
         Create(Collection("event"), {
           data: jsonInput,
         })
@@ -68,7 +69,7 @@ export default {
 
     createUser: async (parent: any, args: any, ctx: Context, info: any) => {
       const { input } = args;
-      const { client } = ctx;
+      const { db } = ctx;
       
       const fieldMap: any = {};
       fieldsList(info, {
@@ -101,7 +102,7 @@ export default {
 
       
       try {
-        const res: any = await client.query(
+        const res: any = await db.query(
           // Abort("aborted 4 test"),
           
           q.Map(
@@ -138,20 +139,20 @@ export default {
     listEvent: async (parent: any, args: any, ctx: Context, info: any) => {
       // return await Event.find().lean({ autopopulate: true });
 
-      const { client } = ctx;
+      const { db } = ctx;
 
-      const ret = await client.query(
+      const ret = await db.query(
         Paginate(Collections())
       );
       console.log("ret", ret);
       
-      // return await client.query(Paginate(Collections()));
+      // return await db.query(Paginate(Collections()));
       return ret;
     },
 
     listUser: async (parent: any, args: any, ctx: Context, info: any) => {
       const { page } = args;
-      const { client } = ctx;
+      const { db } = ctx;
       
       const collectionName = "user";
       const indexName = "user";
@@ -168,8 +169,7 @@ export default {
       });
       
       
-      // ! ERO QUI, FINIRE DI TESTARE
-      const ParseCursor = ({ 
+      /* const ParseCursor = ({ 
         collectionName, cursorWrap
       }: { 
         collectionName: string, 
@@ -179,23 +179,45 @@ export default {
         }, 
       }) => {
         console.log("ParseCursor()", cursorWrap)
-        const { cursor, cursor_id } = cursorWrap;
         if (cursorWrap) {
+          const { cursor, cursor_id } = cursorWrap;
           cursor[cursor.length - 1] = 
             Ref(Collection(collectionName), cursor_id);
           return cursor;
         }
+      } */
+      function AfterOrNull() {
+        If(
+          Var("page_after"),
+          {
+            cursor: Var("page_after"),
+            cursor_id: Select(
+              [indexFields.length, "id"], 
+              Var("page_after"), 
+              // TODO put: ""  inside a global variable
+              ""
+            ),
+          },
+          null
+        )
       }
+      
+      // TODO write somewhere the following convention
+      /* method naming convention
+      camelCase: js funcs which contain FQL (but cannot execute it)
+      PascalCase: local UDF, that is those which execute FQL
+      */
       
       
       try {
-        const res: any = await client.query(
+        const res: any = await db.query(
           // Abort("aborted 4 test"),
           
           Let(
             {
               page: q.Map(
                 Paginate(
+                  // TODO put: 0  inside a global variable
                   Match(Index(indexName), 0),
                   { 
                     after: ParseCursor({ 
@@ -213,15 +235,7 @@ export default {
               page_after: Select("after", Var("page"), ""),
               pageRepack: {
                 data: Select("data", Var("page")),
-                after: {
-                  cursor: Var("page_after"),
-                  cursor_id: Select(
-                    [indexFields.length, "id"], 
-                    Var("page_after"), 
-                    // TODO put inside a global variable
-                    ""
-                  ),
-                },
+                after: AfterOrNull(),
               }
             },
             Var("pageRepack")
