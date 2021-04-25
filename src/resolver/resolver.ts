@@ -2,7 +2,7 @@
 
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
-import { ParseCursor } from "../util";
+import { parseCursor } from "../util";
 // import { Event } from "../model/event";
 // import { User } from "../model/user";
 
@@ -169,24 +169,7 @@ export default {
       });
       
       
-      /* const ParseCursor = ({ 
-        collectionName, cursorWrap
-      }: { 
-        collectionName: string, 
-        cursorWrap: {
-          cursor: any[],
-          cursor_id: string,
-        }, 
-      }) => {
-        console.log("ParseCursor()", cursorWrap)
-        if (cursorWrap) {
-          const { cursor, cursor_id } = cursorWrap;
-          cursor[cursor.length - 1] = 
-            Ref(Collection(collectionName), cursor_id);
-          return cursor;
-        }
-      } */
-      function AfterOrNull() {
+      const packCursor = () => {
         If(
           Var("page_after"),
           {
@@ -202,12 +185,6 @@ export default {
         )
       }
       
-      // TODO write somewhere the following convention
-      /* method naming convention
-      camelCase: js funcs which contain FQL (but cannot execute it)
-      PascalCase: local UDF, that is those which execute FQL
-      */
-      
       
       try {
         const res: any = await db.query(
@@ -220,9 +197,9 @@ export default {
                   // TODO put: 0  inside a global variable
                   Match(Index(indexName), 0),
                   { 
-                    after: ParseCursor({ 
+                    after: parseCursor({ 
                       cursorWrap: page.cursorAfter, 
-                      collectionName: collectionName, 
+                      /* collectionName:  */collectionName, 
                     }),
                     size: page.size, 
                   }
@@ -235,7 +212,7 @@ export default {
               page_after: Select("after", Var("page"), ""),
               pageRepack: {
                 data: Select("data", Var("page")),
-                after: AfterOrNull(),
+                after: packCursor(),
               }
             },
             Var("pageRepack")

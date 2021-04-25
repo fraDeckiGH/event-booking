@@ -66,13 +66,13 @@ export type Maybe<T> = T/*  | null */ | undefined;
  * not needed on 'required' fields
  * @param val
  */
-export function noFalsy<T>(val: T) {
+/* export function noFalsy<T>(val: T) {
   return val || undefined;
-}
+} */
 
 export function prodLogging() {
   if (process.env.NODE_ENV === "production") {
-    // console.error = () => {}
+    // console.error = () => {};
     console.log = () => {};
 
     // reminder: there are others
@@ -106,17 +106,16 @@ export function prodLogging() {
 
 
 
-function ParseCursor({ 
-  collectionName, cursorWrap/* , query: q */
+const parseCursor = function({ 
+  collectionName, cursorWrap 
 }: { 
   collectionName: string, 
   cursorWrap: {
     cursor: any[],
     cursor_id: string,
   }, 
-  // query?: faunadb.Expr,
 }) {
-  console.log("ParseCursor()", cursorWrap)
+  // console.log("parseCursor()", cursorWrap)
   if (cursorWrap) {
     const { cursor, cursor_id } = cursorWrap;
     cursor[cursor.length - 1] = 
@@ -126,6 +125,7 @@ function ParseCursor({
 }
 
 
+
 export {
-  ParseCursor,
+  parseCursor,
 }

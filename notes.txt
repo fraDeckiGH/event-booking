@@ -16,7 +16,7 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 -- TODO --
 
-use class-validator for schema validations
+class-validator vs js-validator for schema validations
 
 -- TODO later on --
 

@@ -28,7 +28,7 @@ app.use(
   // urlencoded({ extended: false }),
 );
 
-!(async function () {
+!async function() {
   try {
     app.use(
       "/graphql",
@@ -54,4 +54,4 @@ app.use(
   } catch (e) {
     console.error(e);
   }
-})();
+}();
