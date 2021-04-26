@@ -88,10 +88,11 @@ export default {
       });
       
       
-      const MakeObject = (doc: any, fieldMap: any) => {
+      const makeObject = (doc: any, fieldMap: any) => {
         // shallow copy (works w/out)
-        // fieldMap = Object.assign({}, fieldMap)
+        fieldMap = Object.assign({}, fieldMap)
         
+        // TODO use Object.keys()
         for (const key in fieldMap) {
           fieldMap[key] = Select(fieldMap[key], doc)
         }
@@ -115,7 +116,7 @@ export default {
                     data: Var("docToCreate")
                   }),
                   // createdDoc: Get(Ref(Collection("user"), Var("docToCreate"))),
-                  docToReturn: MakeObject(Var("createdDoc"), fieldMap),
+                  docToReturn: makeObject(Var("createdDoc"), fieldMap),
                 },
                 q.Var("docToReturn")
               )
@@ -169,6 +170,7 @@ export default {
       });
       
       
+      // TODO make +dynamic
       const packCursor = () => {
         If(
           Var("page_after"),
