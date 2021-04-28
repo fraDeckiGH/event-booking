@@ -1,37 +1,7 @@
 /** @format */
 
-import faunadb, { query as q } from "faunadb";
 // import { Response } from "express";
 
-const {
-  Abort,
-  Add,
-  Call,
-  Collection,
-  Collections,
-  Contains,
-  Create,
-  Do,
-  Documents,
-  Exists,
-  Get,
-  Identity,
-  If,
-  Index,
-  Join,
-  Lambda,
-  Let,
-  Match,
-  Not,
-  Now,
-  Paginate,
-  Ref,
-  Select,
-  Subtract,
-  ToArray,
-  Update,
-  Var,
-} = q;
 
 
 /* export const REGEX = Object.freeze({
@@ -106,26 +76,7 @@ export function prodLogging() {
 
 
 
-const parseCursor = function({ 
-  collectionName, cursorWrap 
-}: { 
-  collectionName: string, 
-  cursorWrap: {
-    cursor: any[],
-    cursor_id: string,
-  }, 
-}) {
-  // console.log("parseCursor()", cursorWrap)
-  if (cursorWrap) {
-    const { cursor, cursor_id } = cursorWrap;
-    cursor[cursor.length - 1] = 
-      Ref(Collection(collectionName), cursor_id);
-    return cursor;
-  }
-}
 
 
 
-export {
-  parseCursor,
-}
+

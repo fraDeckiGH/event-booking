@@ -2,13 +2,11 @@
 
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
-import { parseCursor } from "../util";
+import { packCursor, parseCursor } from "./helper";
+import { Context } from "./type";
 // import { Event } from "../model/event";
 // import { User } from "../model/user";
 
-type Context = {
-  db: faunadb.Client;
-};
 const {
   Abort,
   Add,
@@ -170,24 +168,6 @@ export default {
       });
       
       
-      // TODO make +dynamic
-      const packCursor = () => {
-        If(
-          Var("page_after"),
-          {
-            cursor: Var("page_after"),
-            cursor_id: Select(
-              [indexFields.length, "id"], 
-              Var("page_after"), 
-              // TODO put: ""  inside a global variable
-              ""
-            ),
-          },
-          null
-        )
-      }
-      
-      
       try {
         const res: any = await db.query(
           // Abort("aborted 4 test"),
@@ -214,7 +194,10 @@ export default {
               page_after: Select("after", Var("page"), ""),
               pageRepack: {
                 data: Select("data", Var("page")),
-                after: packCursor(),
+                after: packCursor({
+                  cursor: Var("page_after"),
+                  indexFields_length: indexFields.length,
+                }),
               }
             },
             Var("pageRepack")

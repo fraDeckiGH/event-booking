@@ -32,9 +32,9 @@
     "faunadb": "^4.2.0",
     "graphql": "^15.5.0",
     "graphql-fields-list": "^2.2.3",
-    "graphql-scalars": "^1.9.0",
+    "graphql-scalars": "^1.9.3",
     "graphql-tools": "^7.0.4",
-    "validator": "^13.5.2"
+    "validator": "^13.6.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.1",
