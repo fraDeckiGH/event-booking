@@ -2,8 +2,9 @@
 
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
-import { packCursor, parseCursor } from "./helper";
+import { packCursor, parseCursor } from "./func";
 import { Context } from "./type";
+import { indexingFieldValue } from "./value";
 // import { Event } from "../model/event";
 // import { User } from "../model/user";
 
@@ -84,8 +85,10 @@ export default {
             fieldMap[key] = ["data", key]
         }
       });
+      // TODO test
+      // Object.freeze(fieldMap)
       
-      
+      // TODO export
       const makeObject = (doc: any, fieldMap: any) => {
         // shallow copy (works w/out)
         fieldMap = Object.assign({}, fieldMap)
@@ -100,6 +103,7 @@ export default {
       }
 
       
+      // TODO add indexing field ("_")
       try {
         const res: any = await db.query(
           // Abort("aborted 4 test"),
@@ -176,12 +180,11 @@ export default {
             {
               page: q.Map(
                 Paginate(
-                  // TODO put: 0  inside a global variable
-                  Match(Index(indexName), 0),
+                  Match(Index(indexName), indexingFieldValue),
                   { 
                     after: parseCursor({ 
                       cursorWrap: page.cursorAfter, 
-                      /* collectionName:  */collectionName, 
+                      collectionName, 
                     }),
                     size: page.size, 
                   }
@@ -191,6 +194,7 @@ export default {
                   fieldMap
                 )
               ),
+              // TODO put: ""  inside a global variable
               page_after: Select("after", Var("page"), ""),
               pageRepack: {
                 data: Select("data", Var("page")),

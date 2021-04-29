@@ -18,6 +18,7 @@ const {
   Identity,
   If,
   Index,
+  IsArray,
   Join,
   Lambda,
   Let,
@@ -45,7 +46,7 @@ return a cursor (to send the client) packed conveniently
 for being parsed in (a future) next pagination
  */
 const packCursor = function({
-  cursor, 
+  cursor,
   indexFields_length,
 }: {
   cursor: dbExpr,
@@ -53,7 +54,7 @@ const packCursor = function({
 }) {
   return If(
     // if (condition)
-    !!cursor, // ! LAST CHECKPOINT
+    IsArray(cursor),
     // then
     {
       cursor,
@@ -74,15 +75,11 @@ return a cursor usable by the pagination from the one sent
 by the client
  */
 const parseCursor = function({ 
-  collectionName, 
-  cursorWrap, 
+  collectionName,
+  cursorWrap,
 }: { 
-  collectionName: string, 
-  // cursorWrap: {
-  //   cursor: any[],
-  //   cursor_id: string,
-  // },
-  cursorWrap: CursorWrap, 
+  collectionName: string,
+  cursorWrap: CursorWrap,
 }) {
   // console.log("parseCursor()", cursorWrap)
   if (cursorWrap) {
