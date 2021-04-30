@@ -2,9 +2,9 @@
 
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
-import { packCursor, parseCursor } from "./func";
+import { packCursor, packDocument, packQueryError, parseCursor } from "./func";
 import { Context } from "./type";
-import { indexingFieldValue } from "./value";
+import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "./value";
 // import { Event } from "../model/event";
 // import { User } from "../model/user";
 
@@ -85,23 +85,7 @@ export default {
             fieldMap[key] = ["data", key]
         }
       });
-      // TODO test
-      // Object.freeze(fieldMap)
       
-      // TODO export
-      const makeObject = (doc: any, fieldMap: any) => {
-        // shallow copy (works w/out)
-        fieldMap = Object.assign({}, fieldMap)
-        
-        // TODO use Object.keys()
-        for (const key in fieldMap) {
-          fieldMap[key] = Select(fieldMap[key], doc)
-        }
-        
-        // console.log("MakeObject fieldMap", fieldMap)
-        return fieldMap;
-      }
-
       
       // TODO add indexing field ("_")
       try {
@@ -109,16 +93,19 @@ export default {
           // Abort("aborted 4 test"),
           
           q.Map(
-            input,
-            // ["296051984256991751", "296051984256992775", "296051984256993799"],
+            // input,
+            ["296142445081526789", "296142424389976581", "296127950624916997"],
             Lambda("docToCreate", 
               Let(
                 {
-                  createdDoc: Create(Collection("user"), {
-                    data: Var("docToCreate")
+                  // createdDoc: Create(Collection("user"), {
+                  //   data: Var("docToCreate")
+                  // }),
+                  createdDoc: Get(Ref(Collection("user"), Var("docToCreate"))),
+                  docToReturn: packDocument({
+                    doc: Var("createdDoc"), 
+                    fieldMap,
                   }),
-                  // createdDoc: Get(Ref(Collection("user"), Var("docToCreate"))),
-                  docToReturn: makeObject(Var("createdDoc"), fieldMap),
                 },
                 q.Var("docToReturn")
               )
@@ -132,8 +119,9 @@ export default {
           node: res,
         };
       } catch (e) {
-        console.error("catch e", e)
-        return { errorCode: e.description } // Abort("description")
+        return packQueryError({
+          error: e,
+        })
       }
       
     },
@@ -180,7 +168,7 @@ export default {
             {
               page: q.Map(
                 Paginate(
-                  Match(Index(indexName), indexingFieldValue),
+                  Match(Index(indexName), INDEXING_FIELD.value),
                   { 
                     after: parseCursor({ 
                       cursorWrap: page.cursorAfter, 
@@ -194,8 +182,7 @@ export default {
                   fieldMap
                 )
               ),
-              // TODO put: ""  inside a global variable
-              page_after: Select("after", Var("page"), ""),
+              page_after: Select("after", Var("page"), SELECT_DEFAULT_VALUE),
               pageRepack: {
                 data: Select("data", Var("page")),
                 after: packCursor({
@@ -218,8 +205,9 @@ export default {
           node: res.data,
         };
       } catch (e) {
-        console.error("catch e", e)
-        return { errorCode: e.description } // Abort("description")
+        return packQueryError({
+          error: e,
+        })
       }
       
     },

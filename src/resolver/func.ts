@@ -1,7 +1,8 @@
 // * helper funcs
 
-import faunadb, { query as q } from "faunadb";
+import /* faunadb,  */{ query as q } from "faunadb";
 import { CursorWrap, dbExpr } from "./type";
+import { SELECT_DEFAULT_VALUE } from "./value";
 
 const {
   Abort,
@@ -36,7 +37,23 @@ const {
 
 export {
   packCursor,
+  packDocument,
+  packQueryError,
   parseCursor,
+}
+
+// * {pinned} misc
+
+const packQueryError = function({
+  error: e,
+}: {
+  error: any,
+}) {
+  console.error("catch", e)
+  // TODO create type for obj returned
+  return { 
+    errorCode: e.description, // Abort("description")
+  }
 }
 
 // * cursor
@@ -61,8 +78,7 @@ const packCursor = function({
       cursor_id: Select(
         [indexFields_length, "id"], 
         cursor, 
-        // TODO put: ""  inside a global variable
-        ""
+        SELECT_DEFAULT_VALUE
       ),
     },
     // else
@@ -90,6 +106,31 @@ const parseCursor = function({
   }
 }
 
+// * document
+
+/**
+return an obj to send the client from a db doc
+ */
+// TODO unfinished work
+const packDocument = function({
+  doc, 
+  fieldMap,
+}: {
+  doc: any, 
+  fieldMap: any,
+}) {
+  // shallow copy (works w/out - due to transaction - 
+  // dirty var after transaction ofc)
+  fieldMap = Object.assign({}, fieldMap)
+  
+  // TODO use Object.keys()
+  for (const key in fieldMap) {
+    fieldMap[key] = Select(fieldMap[key], doc)
+  }
+  
+  // console.log("fieldMap", fieldMap)
+  return fieldMap;
+}
 
 
 
