@@ -115,18 +115,23 @@ return an obj to send the client from a db doc
 const packDocument = function({
   doc, 
   fieldMap,
+  fieldMapKeys,
 }: {
   doc: any, 
   fieldMap: any,
+  fieldMapKeys: string[],
 }) {
   // shallow copy (works w/out - due to transaction - 
   // dirty var after transaction ofc)
   fieldMap = Object.assign({}, fieldMap)
   
-  // TODO use Object.keys()
-  for (const key in fieldMap) {
+  // ! last checkpoint
+  fieldMapKeys.forEach((key: string) => {
     fieldMap[key] = Select(fieldMap[key], doc)
-  }
+  });
+  // for (const key in fieldMap) {
+  //   fieldMap[key] = Select(fieldMap[key], doc)
+  // }
   
   // console.log("fieldMap", fieldMap)
   return fieldMap;

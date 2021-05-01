@@ -71,20 +71,15 @@ export default {
       const { db } = ctx;
       
       const fieldMap: any = {};
-      fieldsList(info, {
+      const fieldMapKeys: string[] = fieldsList(info, {
         path: "node",
-      }).forEach((key: string) => {
-        switch (key) {
-          case "id":
-            fieldMap[key] = ["ref", key]
-            break;
-          case "ts":
-            fieldMap[key] = [key]
-            break;
-          default:
-            fieldMap[key] = ["data", key]
-        }
       });
+      
+      fieldMapKeys.forEach((key: string) => {
+        fieldMap[key] = ["data", key]
+      })
+      fieldMap.id &&= ["ref", "id"]
+      fieldMap.ts &&= ["ts"]
       
       
       // TODO add indexing field ("_")
@@ -105,6 +100,7 @@ export default {
                   docToReturn: packDocument({
                     doc: Var("createdDoc"), 
                     fieldMap,
+                    fieldMapKeys,
                   }),
                 },
                 q.Var("docToReturn")
