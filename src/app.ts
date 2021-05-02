@@ -36,7 +36,7 @@ app.use(
         context: {
           // * db connection
           db: new faunadb.Client({
-            secret: <string>process.env.FAUNADB_SERVER_SECRET,
+            secret: process.env.FAUNADB_SERVER_SECRET!,
           }),
         },
         // graphiql: { headerEditorEnabled: true },

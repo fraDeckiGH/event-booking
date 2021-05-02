@@ -44,18 +44,6 @@ export {
 
 // * {pinned} misc
 
-const packQueryError = function({
-  error: e,
-}: {
-  error: any,
-}) {
-  console.error("catch", e)
-  // TODO create type for obj returned
-  return { 
-    errorCode: e.description, // Abort("description")
-  }
-}
-
 // * cursor
 
 /**
@@ -111,7 +99,6 @@ const parseCursor = function({
 /**
 return an obj to send the client from a db doc
  */
-// TODO unfinished work
 const packDocument = function({
   doc, 
   fieldMap,
@@ -123,9 +110,9 @@ const packDocument = function({
 }) {
   // shallow copy (works w/out - due to transaction - 
   // dirty var after transaction ofc)
-  fieldMap = Object.assign({}, fieldMap)
+  // fieldMap = Object.assign({}, fieldMap)
+  fieldMap = {...fieldMap} // TODO test: fieldMap must not be dirty
   
-  // ! last checkpoint
   fieldMapKeys.forEach((key: string) => {
     fieldMap[key] = Select(fieldMap[key], doc)
   });
@@ -137,7 +124,19 @@ const packDocument = function({
   return fieldMap;
 }
 
+// * query
 
+const packQueryError = function({
+  error: e,
+}: {
+  error: any,
+}) {
+  console.error("catch", e)
+  // TODO create type for obj returned
+  return { 
+    errorCode: e.description, // Abort("description")
+  }
+}
 
 
 

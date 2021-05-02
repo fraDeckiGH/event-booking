@@ -47,7 +47,7 @@ interface Response {
 }
 interface ListResponse {
   errorCode: NonEmptyString
-  page: Page
+  pageInfo: PageInfo
 }
 
 type EventResponse implements Response {
@@ -60,14 +60,14 @@ type UserResponse implements Response {
 }
 type UserListResponse implements ListResponse {
   errorCode: NonEmptyString
-	page: Page
+	pageInfo: PageInfo
   node: [User!]
 }
 
-type Page {
+type PageInfo {
 	cursorAfter: JSON
 }
-input PageInput {
+input PageInfoInput {
 	cursorAfter: JSON
 	size: PositiveInt
 }
@@ -78,7 +78,7 @@ type Mutation {
 }
 type Query {
 	listEvent: EventResponse!
-	listUser(page: PageInput): UserListResponse!
+	listUser(pageInfo: PageInfoInput): UserListResponse!
 }
 schema {
 	mutation: Mutation

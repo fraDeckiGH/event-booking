@@ -27,6 +27,7 @@ const {
   Lambda,
   Let,
   Match,
+  Merge,
   Not,
   Now,
   Paginate,
@@ -81,22 +82,33 @@ export default {
       fieldMap.id &&= ["ref", "id"]
       fieldMap.ts &&= ["ts"]
       
+      // * validation
+      const fieldMapV: any = {...fieldMap};
+      delete 
       
-      // TODO add indexing field ("_")
+      
+      // ! was working on this resolver
+      // - putting validation outside transaction
+      // - handle (if needed) docs to return the client 
+      //   outside transaction too?
       try {
         const res: any = await db.query(
           // Abort("aborted 4 test"),
           
           q.Map(
-            // input,
-            ["296142445081526789", "296142424389976581", "296127950624916997"],
-            Lambda("docToCreate", 
+            input,
+            // ["296142445081526789", "296142424389976581", "296127950624916997"],
+            Lambda("inputDoc", 
               Let(
                 {
-                  // createdDoc: Create(Collection("user"), {
-                  //   data: Var("docToCreate")
-                  // }),
-                  createdDoc: Get(Ref(Collection("user"), Var("docToCreate"))),
+                  createdDoc: Create(Collection("user"), {
+                    // data: Var("inputDoc")
+                    data: Merge(
+                      Var("inputDoc"),
+                      { [INDEXING_FIELD.key]: INDEXING_FIELD.value },
+                    ),
+                  }),
+                  // createdDoc: Get(Ref(Collection("user"), Var("inputDoc"))),
                   docToReturn: packDocument({
                     doc: Var("createdDoc"), 
                     fieldMap,
@@ -138,7 +150,7 @@ export default {
     },
 
     listUser: async (parent: any, args: any, ctx: Context, info: any) => {
-      const { page } = args;
+      const { pageInfo } = args;
       const { db } = ctx;
       
       const collectionName = "user";
@@ -167,10 +179,10 @@ export default {
                   Match(Index(indexName), INDEXING_FIELD.value),
                   { 
                     after: parseCursor({ 
-                      cursorWrap: page.cursorAfter, 
+                      cursorWrap: pageInfo.cursorAfter, 
                       collectionName, 
                     }),
-                    size: page.size, 
+                    size: pageInfo.size, 
                   }
                 ),
                 Lambda(
@@ -195,7 +207,7 @@ export default {
         console.log("res", res)
         // console.log("res.data", res.data)
         return {
-          page: {
+          pageInfo: {
             cursorAfter: res.after,
           },
           node: res.data,

@@ -8,6 +8,9 @@ export {
   dbExpr,
 }
 
+/**
+ * resolver param
+ */
 type Context = {
   db: faunadb.Client
 }
