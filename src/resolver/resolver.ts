@@ -84,8 +84,12 @@ export default {
       
       // * validation
       const fieldMapV: any = {...fieldMap};
-      delete 
-      
+      delete fieldMapV.id
+      delete fieldMapV.ts
+      const fieldMapVKeys: string[] = Object.keys(fieldMapV)
+      input.forEach((obj: object) => {
+        
+      });
       
       // ! was working on this resolver
       // - putting validation outside transaction

@@ -1,25 +1,28 @@
-import { IsEmail } from "class-validator";
+import { IsEmail, Length } from "class-validator";
 import { Maybe } from "../util";
-
-
-
 
 class name {
   @IsEmail()
-  email: Maybe<string>
+  email!: string
+  
+  
+  name!: string
+  
+  @Length(8, 20)
+  password!: string
   
   constructor({
-    objLit,
-    objLitKeys,
+    obj,
+    objKeys,
   }: {
-    objLit: any,
-    objLitKeys: string[],
+    obj: any,
+    objKeys: string[],
   }) {
-    objLitKeys.forEach((key: string) => {
-      (this as any)[key] = objLit.key
+    objKeys.forEach((key: string) => {
+      (this as any)[key] = obj.key
     })
-    // for (const key in objLit) {
-    //   (this as any)[key] = objLit.key
+    // for (const key in obj) {
+    //   (this as any)[key] = obj.key
     // }
   }
   
