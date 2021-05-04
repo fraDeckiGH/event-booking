@@ -2,6 +2,7 @@
 
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
+import User from "../model/user";
 import { packCursor, packDocument, packQueryError, parseCursor } from "./func";
 import { Context } from "./type";
 import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "./value";
@@ -83,12 +84,21 @@ export default {
       fieldMap.ts &&= ["ts"]
       
       // * validation
-      const fieldMapV: any = {...fieldMap};
-      delete fieldMapV.id
-      delete fieldMapV.ts
-      const fieldMapVKeys: string[] = Object.keys(fieldMapV)
+      // const fieldMapV: any = {...fieldMap};
+      // delete fieldMapV.id
+      // delete fieldMapV.ts
+      // const fieldMapVKeys: string[] = Object.keys(fieldMapV)
+      
+      // ! trying to list class fields
+      // and looking in Typescript docs for knowledge
+      // ? maybe I should define a (sort of) global type
+      console.log(`keys2`, Object.keys(new User(<any>{})) )
+      
       input.forEach((obj: object) => {
-        
+        // new User({
+        //   obj: obj, 
+        //   objKeys: fieldMapVKeys,
+        // })
       });
       
       // ! was working on this resolver
@@ -97,9 +107,9 @@ export default {
       //   outside transaction too?
       try {
         const res: any = await db.query(
-          // Abort("aborted 4 test"),
+          Abort("aborted 4 test"),
           
-          q.Map(
+          /* q.Map(
             input,
             // ["296142445081526789", "296142424389976581", "296127950624916997"],
             Lambda("inputDoc", 
@@ -122,7 +132,7 @@ export default {
                 q.Var("docToReturn")
               )
             )
-          )
+          ) */
           
         );
         
@@ -131,9 +141,10 @@ export default {
           node: res,
         };
       } catch (e) {
-        return packQueryError({
-          error: e,
-        })
+        // return packQueryError({
+        //   error: e,
+        // })
+        return {errorCode: null}
       }
       
     },
@@ -163,7 +174,7 @@ export default {
       const fieldMap: any = fieldsMap(info, {
         path: "node",
       });
-      const indexFields: string[] = ["ts", "id", "email", "name"];
+      const indexFields: string[] = ["ts", "id", "email", "nickname"];
       
       indexFields.forEach((key) => {
         if (fieldMap.hasOwnProperty(key)) {

@@ -1,12 +1,18 @@
 import { IsEmail, Length } from "class-validator";
 import { Maybe } from "../util";
 
-class name {
+export default class User {
+  // TODO I want this field to be:
+  // required
+  // unique (case INsensitive)
   @IsEmail()
   email!: string
+  // email: Maybe<string> = undefined
   
-  
-  name!: string
+  // TODO I want this field to be:
+  // required but sparse
+  // unique (case sensitive)
+  nickname!: string
   
   @Length(8, 20)
   password!: string
@@ -18,16 +24,9 @@ class name {
     obj: any,
     objKeys: string[],
   }) {
-    objKeys.forEach((key: string) => {
-      (this as any)[key] = obj.key
-    })
-    // for (const key in obj) {
+    // objKeys.forEach((key: string) => {
     //   (this as any)[key] = obj.key
-    // }
+    // })
   }
   
-  
 }
-
-export {name as UserInput}
-

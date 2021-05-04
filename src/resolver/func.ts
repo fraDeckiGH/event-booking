@@ -110,15 +110,12 @@ const packDocument = function({
 }) {
   // shallow copy (works w/out - due to transaction - 
   // dirty var after transaction ofc)
+  fieldMap = {...fieldMap} // TODO test: fieldMap must not result dirty
   // fieldMap = Object.assign({}, fieldMap)
-  fieldMap = {...fieldMap} // TODO test: fieldMap must not be dirty
   
   fieldMapKeys.forEach((key: string) => {
     fieldMap[key] = Select(fieldMap[key], doc)
-  });
-  // for (const key in fieldMap) {
-  //   fieldMap[key] = Select(fieldMap[key], doc)
-  // }
+  })
   
   // console.log("fieldMap", fieldMap)
   return fieldMap;

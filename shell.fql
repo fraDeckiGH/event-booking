@@ -6,7 +6,22 @@ q.Paginate(q.Collections())
 
 
 
-
+CreateIndex({
+  name: "user",
+  serialized: true,
+  source: [
+    { collection: Collection("user"), },
+  ],
+  terms: [
+    { field: ["data", "_"] },
+  ],
+  values: [
+    { field: ["ts"], reverse: true },
+    { field: ["ref", "id"], },
+    { field: ["data", "email"], },
+    { field: ["data", "nickname"], },
+  ],
+})
 
 
 
