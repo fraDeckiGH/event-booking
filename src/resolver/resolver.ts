@@ -92,7 +92,7 @@ export default {
       // ! trying to list class fields
       // and looking in Typescript docs for knowledge
       // ? maybe I should define a (sort of) global type
-      console.log(`keys2`, Object.keys(new User(<any>{})) )
+      console.log(`keys2`, Object.keys(new User()) )
       
       input.forEach((obj: object) => {
         // new User({

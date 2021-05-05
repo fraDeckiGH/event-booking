@@ -1,7 +1,7 @@
 import { IsEmail, Length } from "class-validator";
 import { Maybe } from "../util";
 
-export default class User {
+export default class User/* <T> */ {
   // TODO I want this field to be:
   // required
   // unique (case INsensitive)
@@ -17,13 +17,14 @@ export default class User {
   @Length(8, 20)
   password!: string
   
+  constructor();
   constructor({
     obj,
     objKeys,
   }: {
     obj: any,
     objKeys: string[],
-  }) {
+  } | void) {
     // objKeys.forEach((key: string) => {
     //   (this as any)[key] = obj.key
     // })
