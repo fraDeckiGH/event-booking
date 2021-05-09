@@ -2,7 +2,7 @@
 
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
-import User from "../model/user";
+// import User from "../model/user";
 import { packCursor, packDocument, packQueryError, parseCursor } from "./func";
 import { Context } from "./type";
 import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "./value";
@@ -69,7 +69,7 @@ export default {
     },
 
     createUser: async (parent: any, args: any, ctx: Context, info: any) => {
-      const { input } = args;
+      const { input } = args; // ? what if input is []
       const { db } = ctx;
       
       const fieldMap: any = {};

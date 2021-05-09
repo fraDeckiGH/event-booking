@@ -1,7 +1,9 @@
 import { IsEmail, Length } from "class-validator";
+import { Field, ID, InputType, ObjectType } from "type-graphql";
+// import { Field } from "type-graphql";
 import { Maybe } from "../util";
 
-export default class User {
+/* export default class User {
   // TODO I want this field to be:
   // required
   // unique (case INsensitive)
@@ -34,4 +36,32 @@ export default class User {
     })
   }
   
+} */
+
+
+@ObjectType()
+export class User {
+  @Field(type => ID)
+  readonly id!: string
+  
+  @Field()
+  ts!: number
+  
+  @Field()
+  email!: string
+  
+  @Field({ nullable: true })
+  nickname?: string
+}
+
+@InputType()
+export class UserInput implements Partial<User> {
+  @Field()
+  email!: string
+  
+  @Field({ nullable: true })
+  nickname?: string
+  
+  @Field()
+  password!: string
 }

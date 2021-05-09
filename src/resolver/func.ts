@@ -83,7 +83,8 @@ const parseCursor = function({
   cursorWrap,
 }: { 
   collectionName: string,
-  cursorWrap: CursorWrap,
+  // cursorWrap: CursorWrap,
+  cursorWrap: any,
 }) {
   // console.log("parseCursor()", cursorWrap)
   if (cursorWrap) {
