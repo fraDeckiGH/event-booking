@@ -2,6 +2,15 @@ import { IsEmail, Length } from "class-validator";
 import { Field, ID, InputType, ObjectType } from "type-graphql";
 // import { Field } from "type-graphql";
 import { Maybe } from "../util";
+import { 
+  Currency,
+  DateTime,
+  EmailAddress,
+  JSONScalar,
+  NonEmptyString,
+  PositiveInt,
+  Timestamp, 
+} from "../junction/scalar";
 
 /* export default class User {
   // TODO I want this field to be:
@@ -44,24 +53,24 @@ export class User {
   @Field(type => ID)
   readonly id!: string
   
-  @Field()
-  ts!: number
+  @Field(type => Timestamp)
+  readonly ts!: number
   
-  @Field()
+  @Field(type => EmailAddress)
   email!: string
   
-  @Field({ nullable: true })
+  @Field(type => NonEmptyString, { nullable: true })
   nickname?: string
 }
 
 @InputType()
 export class UserInput implements Partial<User> {
-  @Field()
+  @Field(type => EmailAddress)
   email!: string
   
-  @Field({ nullable: true })
+  @Field(type => NonEmptyString, { nullable: true })
   nickname?: string
   
-  @Field()
+  @Field(type => NonEmptyString)
   password!: string
 }

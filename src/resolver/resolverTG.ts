@@ -1,18 +1,24 @@
 // * TypeGraphQL version of resolver.ts
 
-// import "reflect-metadata";
-
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
 import { Args, ArgsType, Ctx, Field, ID, Info, InputType, ObjectType, Query as QueryTg, Resolver, Root } from "type-graphql";
 import { User } from "../model/user";
 // import User from "../model/user";
 import { packCursor, packDocument, packQueryError, parseCursor } from "./func";
-import { Context } from "./type";
+import { Context, CursorWrap } from "./type";
 import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "./value";
 // import { Event } from "../model/event";
 // import { User } from "../model/user";
-import { JSONScalar, PositiveInt, Scalar } from "../junction/scalar";
+import { 
+  Currency,
+  DateTime,
+  EmailAddress,
+  JSONScalar,
+  NonEmptyString,
+  PositiveInt,
+  Timestamp, 
+} from "../junction/scalar";
 
 const {
   Abort,
@@ -50,12 +56,12 @@ const {
 @ObjectType()
 export class PageInfo {
   @Field(type => JSONScalar, { nullable: true })
-  cursorAfter?: Scalar
+  cursorAfter?: CursorWrap
 }
 
 @ObjectType()
 export class UserListResponse {
-  @Field({ nullable: true })
+  @Field(type => NonEmptyString, { nullable: true })
   errorCode?: string
   
   @Field({ nullable: true })
@@ -68,10 +74,10 @@ export class UserListResponse {
 @InputType()
 export class PageInfoInput implements Partial<PageInfo> {
   @Field(type => JSONScalar, { nullable: true })
-  cursorAfter?: Scalar
+  cursorAfter?: CursorWrap
   
   @Field(type => PositiveInt)
-  size!: Scalar
+  size!: number
 }
 
 

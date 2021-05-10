@@ -1,6 +1,6 @@
 // * junction(snodo) for custom graphql scalars 
 
-export { GraphQLScalarType as Scalar } from "graphql";
+// export { GraphQLScalarType as Scalar } from "graphql";
 export {
   CurrencyResolver as Currency,
   DateTimeResolver as DateTime,

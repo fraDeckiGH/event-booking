@@ -48,7 +48,7 @@ export {
 
 /**
 return a cursor (to send the client) packed conveniently 
-for being parsed in (a future) next pagination
+for parsing in (a future) next pagination
  */
 const packCursor = function({
   cursor,
@@ -83,8 +83,7 @@ const parseCursor = function({
   cursorWrap,
 }: { 
   collectionName: string,
-  // cursorWrap: CursorWrap,
-  cursorWrap: any,
+  cursorWrap?: CursorWrap,
 }) {
   // console.log("parseCursor()", cursorWrap)
   if (cursorWrap) {
