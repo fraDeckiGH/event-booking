@@ -131,7 +131,7 @@ const packQueryError = function({
   console.error("catch", e)
   // TODO create type for obj returned
   return { 
-    errorCode: e.description, // Abort("description")
+    code: e.description, // Abort("description")
   }
 }
 

@@ -3,8 +3,7 @@
 import faunadb, { query as q } from "faunadb";
 import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
 import { Args, ArgsType, Ctx, Field, ID, Info, InputType, ObjectType, Query as QueryTg, Resolver, Root } from "type-graphql";
-import { User } from "../model/user";
-// import User from "../model/user";
+import User from "../graphql/user";
 import { packCursor, packDocument, packQueryError, parseCursor } from "./func";
 import { Context, CursorWrap } from "./type";
 import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "./value";
@@ -19,6 +18,9 @@ import {
   PositiveInt,
   Timestamp, 
 } from "../junction/scalar";
+import PageInfo from "../graphql/pageInfo";
+import UserListResponse from "../graphql/userListResponse";
+import PageInfoInput from "../graphql/pageInfoInput";
 
 const {
   Abort,
@@ -51,35 +53,6 @@ const {
   Update,
   Var,
 } = q;
-
-// FIX ReferenceError: Cannot access 'PageInfo' before initialization
-@ObjectType()
-export class PageInfo {
-  @Field(type => JSONScalar, { nullable: true })
-  cursorAfter?: CursorWrap
-}
-
-@ObjectType()
-export class UserListResponse {
-  @Field(type => NonEmptyString, { nullable: true })
-  errorCode?: string
-  
-  @Field({ nullable: true })
-  pageInfo?: PageInfo
-  
-  @Field(type => [User], { nullable: true })
-  node?: User[]
-}
-
-@InputType()
-export class PageInfoInput implements Partial<PageInfo> {
-  @Field(type => JSONScalar, { nullable: true })
-  cursorAfter?: CursorWrap
-  
-  @Field(type => PositiveInt)
-  size!: number
-}
-
 
 @ArgsType()
 class ListUserArgs {
@@ -154,6 +127,7 @@ export default class ResolverMap {
       console.log("res", res)
       // console.log("res.data", res.data)
       return {
+        code: "200",
         pageInfo: {
           cursorAfter: res.after,
         },

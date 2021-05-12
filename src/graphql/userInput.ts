@@ -11,6 +11,9 @@ import {
   PositiveInt,
   Timestamp, 
 } from "../junction/scalar";
+import User from "./user";
+import UserI from "./userI";
+import NodeI from "./node";
 
 /* export default class User {
   // TODO I want this field to be:
@@ -47,29 +50,11 @@ import {
   
 } */
 
-
-@ObjectType()
-export class User {
-  @Field(type => ID)
-  readonly id!: string
-  
-  @Field(type => Timestamp)
-  readonly ts!: number
-  
-  @Field(type => EmailAddress)
-  email!: string
-  
-  @Field(type => NonEmptyString, { nullable: true })
-  nickname?: string
-}
-
 @InputType()
-export class UserInput implements Partial<User> {
-  @Field(type => EmailAddress)
-  email!: string
+export default class UserInput extends UserI/* Partial<User> */ {
+  // email!: string
   
-  @Field(type => NonEmptyString, { nullable: true })
-  nickname?: string
+  // nickname?: string
   
   @Field(type => NonEmptyString)
   password!: string

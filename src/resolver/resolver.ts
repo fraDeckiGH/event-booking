@@ -138,6 +138,7 @@ export default {
         
         // console.log("res", res)
         return {
+          code: "200",
           node: res,
         };
       } catch (e) {
@@ -222,6 +223,7 @@ export default {
         console.log("res", res)
         // console.log("res.data", res.data)
         return {
+          code: "200",
           pageInfo: {
             cursorAfter: res.after,
           },
