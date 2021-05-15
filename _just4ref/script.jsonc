@@ -4,17 +4,15 @@
 	// * worthless
 	"start": "tsc-watch --onSuccess \"node -r dotenv/config dist/app.js\"",
 	
-	// * old (used a lot in the past, shouldn't need in the future)
+	// * old
 	// when dealing w/ .graphql file(s)
 	"build": "tsc && copyfiles -u 1 \"src/**/*.graphql\" dist",
 	"dev": "tsnd --rs --watch src/**/*.graphql  -r dotenv/config .",
 	
-	// * just unsure
-	// ? useful
+	// * unsure
 	"prod": "cross-env NODE_ENV=production  npm start",
 	
 	// * future setup
-	// remote (unsure, will know better in the future)
 	"start:remote": "node app.js",
 	"start:remote-prod": "NODE_ENV=production  npm run start:remote",
 }

@@ -16,7 +16,7 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 -- TODO --
 
-class-validator vs js-validator for schema validations
+
 
 -- TODO later on --
 
@@ -30,8 +30,7 @@ switch to apollo-server? (what about Yoga or the others?)
 
 -- packages --
 
-move to dependencies?:
-copyfiles
+move to dependencies?: 
 cors (usage code edits needed if it stays as devDep)
 
 

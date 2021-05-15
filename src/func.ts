@@ -1,7 +1,7 @@
 // * helper funcs
 
 import /* faunadb,  */{ query as q } from "faunadb";
-import { CursorWrap, dbExpr } from "./type";
+import { CursorWrap, dbExpr } from "./typeTS";
 import { SELECT_DEFAULT_VALUE } from "./value";
 
 const {
