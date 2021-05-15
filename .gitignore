@@ -362,6 +362,10 @@ gen/
 # uploads/*
 # !uploads/readme.txt
 
+src/_schema1st-approach/_Mevent.ts
+src/_schema1st-approach/_Muser.ts
+
+
 
 
 
