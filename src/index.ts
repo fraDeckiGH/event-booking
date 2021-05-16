@@ -1,11 +1,10 @@
-import { graphqlHTTP } from "express-graphql";
-import { prodLogging } from "./util";
 import cors from "cors";
 import express, { json } from "express";
-import "reflect-metadata"; // must be before any "type-graphql" import in the app
-import resolvers from "./resolver/resolver";
+import { graphqlHTTP } from "express-graphql";
 import faunadb /* , { query as q } */ from "faunadb";
+import "reflect-metadata"; // must be before any "type-graphql" import in the app
 import { buildSchema } from "type-graphql";
+import { prodLogging } from "./util";
 
 prodLogging();
 const app = express();
@@ -47,7 +46,7 @@ app.use(
             // sortedSchema: false,
           },
           // orphanedTypes: [ UserInput ],
-          resolvers: [ resolvers ],
+          resolvers: [`${__dirname}/resolver/*.{js,ts}`],
         }),
         
       })

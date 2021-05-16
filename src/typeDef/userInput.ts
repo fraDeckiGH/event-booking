@@ -1,5 +1,5 @@
 import { Field, InputType } from "type-graphql";
-import { NonEmptyString } from "../_resolver/scalar-export";
+import { NonEmptyString } from "../scalar-export";
 import UserBase from "./userBase";
 
 @InputType()

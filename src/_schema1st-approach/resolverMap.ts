@@ -1,8 +1,8 @@
 import { query as q } from "faunadb";
 import { fieldsList, fieldsMap } from "graphql-fields-list";
 import { packCursor, packQueryError, parseCursor } from "../func";
-import { Context } from "../_resolver/type";
-import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../_resolver/value";
+import { Context } from "../typeTS";
+import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../value";
 
 const {
   Abort,

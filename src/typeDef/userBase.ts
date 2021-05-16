@@ -1,5 +1,5 @@
 import { Field, InputType, ObjectType } from "type-graphql"
-import { EmailAddress, NonEmptyString } from "../_resolver/scalar-export"
+import { EmailAddress, NonEmptyString } from "../scalar-export"
 
 @InputType(/* "UserBaseInput",  */{ isAbstract: true })
 @ObjectType({ isAbstract: true })

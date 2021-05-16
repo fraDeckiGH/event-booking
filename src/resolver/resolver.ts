@@ -2,8 +2,8 @@ import { query as q } from "faunadb";
 import { fieldsMap } from "graphql-fields-list";
 import { Args, ArgsType, Ctx, Field, Info, 
   Query as QueryTg, Resolver } from "type-graphql";
-import PageInfoInput from "../type/pageInfoInput";
-import UserListResponse from "../type/userListResponse";
+import PageInfoInput from "../typeDef/pageInfoInput";
+import UserListResponse from "../typeDef/userListResponse";
 import { packCursor, packQueryError, parseCursor } from "../func";
 import { Context } from "../typeTS";
 import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../value";
@@ -51,11 +51,11 @@ export default class ResolverMap {
   
   @QueryTg(returns => UserListResponse)
   async listUser(
-    /* @Root() */ parent: any,
+    // /* @Root() */ parent: any,
     @Args() args: ListUserArgs, 
     @Ctx() ctx: Context,
     @Info() info: any,
-  )/* : UserListResponse */ {
+  )/* : Promise<UserListResponse> */ {
     const { pageInfo } = args;
     const { db } = ctx;
     
@@ -112,13 +112,25 @@ export default class ResolverMap {
       
       console.log("res", res)
       // console.log("res.data", res.data)
-      return {
+      
+      // let ret = new UserListResponse()
+      const ret: UserListResponse = {
         code: "200",
         pageInfo: {
           cursorAfter: res.after,
         },
         node: res.data,
-      };
+      }
+      ret.pippo = 3 // BUG mixins make this a non-error
+      return ret;
+      
+      // return {
+      //   code: "200",
+      //   pageInfo: {
+      //     cursorAfter: res.after,
+      //   },
+      //   node: res.data,
+      // };
     } catch (e) {
       return packQueryError({
         error: e,

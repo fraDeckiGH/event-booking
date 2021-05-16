@@ -1,10 +1,9 @@
 import { ClassType, Field, ObjectType } from "type-graphql"
-import PageInfo from "../type/pageInfo"
+import PageInfo from "../typeDef/pageInfo"
 
 export default 
 function ListResponseMxn<TBase extends ClassType>(Base: TBase) {
   
-  // @InputType({ isAbstract: true })
   @ObjectType({ isAbstract: true })
   class Class extends Base {
     @Field({ nullable: true })
@@ -13,3 +12,11 @@ function ListResponseMxn<TBase extends ClassType>(Base: TBase) {
   
   return Class
 }
+
+// import ResponseT from "../typeDef/response"
+// @ObjectType({ isAbstract: true })
+// export default class ListResponseMxn extends ResponseT
+// {
+//   @Field({ nullable: true })
+//   pageInfo?: PageInfo
+// }
