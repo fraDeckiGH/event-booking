@@ -113,6 +113,11 @@ export default class ResolverMap {
       console.log("res", res)
       // console.log("res.data", res.data)
       
+      // * to try:
+      // - instanceof
+      // - get clever w/ TypeScript's utility types
+      // - TS' suggested base constructor instead of TypeGraphQL's ClassType
+      
       // let ret = new UserListResponse()
       const ret: UserListResponse = {
         code: "200",
