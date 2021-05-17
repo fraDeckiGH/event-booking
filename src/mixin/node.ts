@@ -15,3 +15,8 @@ function NodeMxn<TBase extends ClassType>(Base: TBase) {
   
   return Class
 }
+
+// * use the class in a mixin (w/out redefining said class)
+// in file: className.ts
+// @ObjectType()
+// export class ClassName extends ClassNameMxn(class {}) {}

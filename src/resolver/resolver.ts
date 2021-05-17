@@ -113,29 +113,31 @@ export default class ResolverMap {
       console.log("res", res)
       // console.log("res.data", res.data)
       
-      // * to try:
-      // - instanceof
-      // - get clever w/ TypeScript's utility types
-      // - TS' suggested base constructor instead of TypeGraphQL's ClassType
+      // const ret = new UserListResponse
+      // ret.code = "200"
+      // ret.pageInfo = {
+      //   cursorAfter: res.after,
+      // }
+      // ret.node = res.data
       
-      // let ret = new UserListResponse()
-      const ret: UserListResponse = {
-        code: "200",
-        pageInfo: {
-          cursorAfter: res.after,
-        },
-        node: res.data,
-      }
-      ret.pippo = 3 // BUG mixins make this a non-error
-      return ret;
-      
-      // return {
+      // const ret: UserListResponse = {
       //   code: "200",
       //   pageInfo: {
       //     cursorAfter: res.after,
       //   },
       //   node: res.data,
-      // };
+      // }
+      
+      // ret.pippo = 3 // BUG mixins make this a non-error
+      // return ret;
+      
+      return {
+        code: "200",
+        pageInfo: {
+          cursorAfter: res.after,
+        },
+        node: res.data,
+      };
     } catch (e) {
       return packQueryError({
         error: e,

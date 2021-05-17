@@ -6,6 +6,7 @@ export {
   Context,
   CursorWrap,
   dbExpr,
+  GConstructor,
 }
 
 /**
@@ -22,6 +23,18 @@ type CursorWrap = {
 
 type dbExpr = faunadb.Expr
 
+/**
+fixes TypeGraphQL's ClassType which lets add props to a class
+w/out error
 
+interface ClassType<T = any> { // incorrect
+    new (...args: any[]): T;
+}
+interface ClassTypeFix<T = {}> { // correct
+  new (...args: any[]): T;
+}
 
-
+from TypeScript's docs
+type GConstructor<T = {}> = new (...args: any[]) => T
+ */
+type GConstructor<T = {}> = new (...args: any[]) => T
