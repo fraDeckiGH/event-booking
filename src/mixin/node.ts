@@ -1,8 +1,9 @@
-import { ClassType, Field, ID, ObjectType } from "type-graphql"
+import { Field, ID, ObjectType } from "type-graphql"
 import { Timestamp } from "../scalar-export"
+import { GConstructor } from "../typeTS"
 
 export default 
-function NodeMxn<TBase extends ClassType>(Base: TBase) {
+function NodeMxn<TBase extends GConstructor>(Base: TBase) {
   
   @ObjectType({ isAbstract: true })
   class Class extends Base {
@@ -19,4 +20,4 @@ function NodeMxn<TBase extends ClassType>(Base: TBase) {
 // * use the class in a mixin (w/out redefining said class)
 // in file: className.ts
 // @ObjectType()
-// export class ClassName extends ClassNameMxn(class {}) {}
+// export default class ClassName extends ClassNameMxn(class {}) {}
