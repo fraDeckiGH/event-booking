@@ -55,7 +55,7 @@ export default class ResolverMap {
     @Args() args: ListUserArgs, 
     @Ctx() ctx: Context,
     @Info() info: any,
-  )/* : Promise<UserListResponse> */ {
+  ): Promise<UserListResponse> {
     const { pageInfo } = args;
     const { db } = ctx;
     
@@ -73,7 +73,7 @@ export default class ResolverMap {
       }
     });
     
-    
+    // let ret = new UserListResponse
     try {
       const res: any = await db.query(
         // Abort("aborted 4 test"),
@@ -98,7 +98,7 @@ export default class ResolverMap {
             ),
             page_after: Select("after", Var("page"), SELECT_DEFAULT_VALUE),
             pageRepack: {
-              data: Select("data", Var("page")),
+              node: Select("data", Var("page")),
               after: packCursor({
                 cursor: Var("page_after"),
                 indexFields_length: indexFields.length,
@@ -111,39 +111,18 @@ export default class ResolverMap {
       );
       
       console.log("res", res)
-      // console.log("res.data", res.data)
-      
-      // const ret = new UserListResponse
-      // ret.code = "200"
-      // ret.pageInfo = {
-      //   cursorAfter: res.after,
-      // }
-      // ret.node = res.data
-      
-      // const ret: UserListResponse = {
-      //   code: "200",
-      //   pageInfo: {
-      //     cursorAfter: res.after,
-      //   },
-      //   node: res.data,
-      // }
-      
-      // ret.pippo = 3 // BUG mixins make this a non-error
-      // return ret;
-      
       return {
         code: "200",
+        node: res.node,
         pageInfo: {
           cursorAfter: res.after,
         },
-        node: res.data,
-      };
+      }
     } catch (e) {
       return packQueryError({
         error: e,
       })
     }
-    
   }
   
 }

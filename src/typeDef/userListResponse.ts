@@ -9,6 +9,4 @@ ListResponseMxn(ResponseT)
 {
   @Field(type => [User], { nullable: true })
   node?: User[]
-  
-  myFunc() { return "ciao" }
 }

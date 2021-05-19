@@ -1,6 +1,7 @@
 // * helper funcs
 
-import /* faunadb,  */{ query as q } from "faunadb";
+import /* faunadb,  */ { query as q } from "faunadb";
+import ResponseT from "./typeDef/response";
 import { CursorWrap, dbExpr } from "./typeTS";
 import { SELECT_DEFAULT_VALUE } from "./value";
 
@@ -40,7 +41,7 @@ export {
   packDocument,
   packQueryError,
   parseCursor,
-}
+};
 
 // * {pinned} misc
 
@@ -127,9 +128,8 @@ const packQueryError = function({
   error: e,
 }: {
   error: any,
-}) {
+}): ResponseT {
   console.error("catch", e)
-  // TODO create type for obj returned
   return { 
     code: e.description, // Abort("description")
   }
