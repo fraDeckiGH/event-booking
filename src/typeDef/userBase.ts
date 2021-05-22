@@ -9,11 +9,11 @@ export default class UserBase {
   // unique (case INsensitive)
   // @IsEmail()
   @Field(type => EmailAddress)
-  email!: string
+  readonly email!: string
   
   // TODO I want this field to be:
   // required but sparse
   // unique (case sensitive)
   @Field(type => NonEmptyString, { nullable: true })
-  nickname?: string
+  readonly nickname?: string
 }

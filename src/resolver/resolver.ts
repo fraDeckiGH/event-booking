@@ -43,16 +43,17 @@ const {
 @ArgsType()
 class ListUserArgs {
   @Field()
-  pageInfo!: PageInfoInput
+  readonly pageInfo!: PageInfoInput
 }
 
 @Resolver(/* User */)
 export default class ResolverMap {
   
   @QueryTg(returns => UserListResponse)
-  async listUser(
+  /* static  */async listUser(
     // /* @Root() */ parent: any,
-    @Args() args: ListUserArgs, 
+    @Args() args: ListUserArgs,
+    // @Args() { pageInfo }: ListUserArgs,
     @Ctx() ctx: Context,
     @Info() info: any,
   ): Promise<UserListResponse> {
@@ -65,7 +66,7 @@ export default class ResolverMap {
     const fieldMap: any = fieldsMap(info, {
       path: "node",
     });
-    const indexFields: string[] = ["ts", "id", "email", "nickname"];
+    const indexFields = ["ts", "id", "email", "nickname"]
     
     indexFields.forEach((key) => {
       if (fieldMap.hasOwnProperty(key)) {

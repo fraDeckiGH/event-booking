@@ -6,5 +6,5 @@ import UserBase from "./userBase";
 export default class UserInput extends UserBase {
   // @Length(8, 20)
   @Field(type => NonEmptyString)
-  password!: string
+  readonly password!: string
 }

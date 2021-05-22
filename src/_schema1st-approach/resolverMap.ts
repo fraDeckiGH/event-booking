@@ -104,7 +104,8 @@ export default {
       //   outside transaction too?
       try {
         const res: any = await db.query(
-          Abort("aborted 4 test"),
+          // Abort("aborted 4 test"),
+          Abort("query underway"),
           
           /* q.Map(
             input,

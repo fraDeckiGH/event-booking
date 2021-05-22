@@ -12,15 +12,16 @@ export {
 /**
  * resolver param
  */
-type Context = {
+type Context = Readonly<{
   db: faunadb.Client
-}
+}>
 
-type CursorWrap = {
+type CursorWrap = Readonly<{
   cursor: any[]
   cursor_id: string
-}
+}>
 
+// already readonly
 type dbExpr = faunadb.Expr
 
 /**
