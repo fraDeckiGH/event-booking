@@ -49,7 +49,7 @@ class ListUserArgs {
 @Resolver(/* User */)
 export default class ResolverMap {
   
-  @QueryTg(returns => UserListResponse)
+  @QueryTg(returns => UserListResponse) // TODO test w/out "returns => ..."
   /* static  */async listUser(
     // /* @Root() */ parent: any,
     @Args() args: ListUserArgs,

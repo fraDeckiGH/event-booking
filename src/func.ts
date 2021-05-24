@@ -1,5 +1,6 @@
 // * helper funcs
 
+// TODO remove imports by using DepInjection/arrow funcs(doable for funcs only)
 import /* faunadb,  */ { query as q } from "faunadb";
 import ResponseT from "./typeDef/response";
 import { CursorWrap, dbExpr } from "./typeTS";

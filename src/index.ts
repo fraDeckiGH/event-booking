@@ -1,13 +1,13 @@
+import "reflect-metadata";
 import cors from "cors";
 import express, { json } from "express";
 import { graphqlHTTP } from "express-graphql";
 import faunadb /* , { query as q } */ from "faunadb";
-import "reflect-metadata"; // must be before any "type-graphql" import in the app
 import { buildSchema } from "type-graphql";
 import { prodLogging } from "./util";
 
-prodLogging();
-const app = express();
+prodLogging()
+const app = express()
 
 // * middleware
 
@@ -23,7 +23,7 @@ app.use(
   // bodyParser
   json()
   // urlencoded({ extended: false }),
-);
+)
 
 !async function() {
   try {
@@ -57,4 +57,4 @@ app.use(
   } catch (e) {
     console.error(e);
   }
-}();
+}()

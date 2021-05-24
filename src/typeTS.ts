@@ -15,6 +15,9 @@ export {
 type Context = Readonly<{
   db: faunadb.Client
 }>
+// interface Context { // ? how-to Readonly<interface>
+//   db: faunadb.Client
+// }
 
 type CursorWrap = Readonly<{
   cursor: any[]
