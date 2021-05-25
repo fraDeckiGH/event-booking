@@ -7,6 +7,7 @@ import UserListResponse from "../typeDef/userListResponse";
 import { packCursor, packQueryError, parseCursor } from "../func";
 import { Context } from "../typeTS";
 import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../value";
+import User from "../typeDef/user";
 
 const {
   Abort,
@@ -46,10 +47,10 @@ class ListUserArgs {
   readonly pageInfo!: PageInfoInput
 }
 
-@Resolver(/* User */)
+@Resolver()
 export default class ResolverMap {
   
-  @QueryTg(returns => UserListResponse) // TODO test w/out "returns => ..."
+  @QueryTg(() => UserListResponse)
   /* static  */async listUser(
     // /* @Root() */ parent: any,
     @Args() args: ListUserArgs,

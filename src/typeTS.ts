@@ -24,8 +24,7 @@ type CursorWrap = Readonly<{
   cursor_id: string
 }>
 
-// already readonly
-type dbExpr = faunadb.Expr
+type dbExpr = faunadb.Expr // already readonly
 
 /**
 fixes TypeGraphQL's ClassType which lets add props to a class

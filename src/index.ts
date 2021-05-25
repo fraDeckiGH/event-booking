@@ -45,7 +45,7 @@ app.use(
             // by default the printed schema is sorted alphabetically
             // sortedSchema: false,
           },
-          // orphanedTypes: [ ListResponse ],
+          // orphanedTypes: [ PersonResolver ],
           resolvers: [`${__dirname}/resolver/*.{js,ts}`],
         }),
         
