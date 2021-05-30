@@ -2,7 +2,6 @@ import "reflect-metadata";
 import cors from "cors";
 import express, { json } from "express";
 import { graphqlHTTP } from "express-graphql";
-import faunadb /* , { query as q } */ from "faunadb";
 import { buildSchema } from "type-graphql";
 import { prodLogging } from "./util";
 
@@ -31,12 +30,7 @@ app.use(
       "/graphql",
       graphqlHTTP({
         
-        context: {
-          // * db connection
-          db: new faunadb.Client({
-            secret: process.env.FAUNADB_SERVER_SECRET!,
-          }),
-        },
+        // context,
         // rootValue,
         schema: await buildSchema({
           emitSchemaFile: {

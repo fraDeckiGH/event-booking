@@ -1,13 +1,10 @@
 import { query as q } from "faunadb";
 import { fieldsMap } from "graphql-fields-list";
-import { Args, ArgsType, Ctx, Field, Info, 
-  Query as QueryTg, Resolver } from "type-graphql";
+import { Args, ArgsType, Field, Info, Query as QueryTg, Resolver } from "type-graphql";
+import { packCursor, packQueryError, parseCursor } from "../func";
 import PageInfoInput from "../typeDef/pageInfoInput";
 import UserListResponse from "../typeDef/userListResponse";
-import { packCursor, packQueryError, parseCursor } from "../func";
-import { Context } from "../typeTS";
-import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../value";
-import User from "../typeDef/user";
+import { DB, INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../value";
 
 const {
   Abort,
@@ -48,21 +45,20 @@ class ListUserArgs {
 }
 
 @Resolver()
-export default class ResolverMap {
+export default class UserResolver {
   
   @QueryTg(() => UserListResponse)
   /* static  */async listUser(
-    // /* @Root() */ parent: any,
+    // @Root() parent: any,
     @Args() args: ListUserArgs,
     // @Args() { pageInfo }: ListUserArgs,
-    @Ctx() ctx: Context,
+    // @Ctx() ctx: Context,
     @Info() info: any,
   ): Promise<UserListResponse> {
-    const { pageInfo } = args;
-    const { db } = ctx;
+    const { pageInfo } = args
     
-    const collectionName = "user";
-    const indexName = "user";
+    const collectionName = "user"
+    const indexName = "user"
     
     const fieldMap: any = fieldsMap(info, {
       path: "node",
@@ -75,9 +71,8 @@ export default class ResolverMap {
       }
     });
     
-    // let ret = new UserListResponse
     try {
-      const res: any = await db.query(
+      const res: any = await DB.query(
         // Abort("aborted 4 test"),
         
         Let(

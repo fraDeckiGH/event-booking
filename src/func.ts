@@ -1,7 +1,6 @@
 // * helper funcs
 
-// TODO remove imports by using DepInjection/arrow funcs(doable for funcs only)
-import /* faunadb,  */ { query as q } from "faunadb";
+import { query as q } from "faunadb";
 import ResponseT from "./typeDef/response";
 import { CursorWrap, dbExpr } from "./typeTS";
 import { SELECT_DEFAULT_VALUE } from "./value";
@@ -42,7 +41,7 @@ export {
   packDocument,
   packQueryError,
   parseCursor,
-};
+}
 
 // * {pinned} misc
 
@@ -112,7 +111,9 @@ const packDocument = function({
 }) {
   // shallow copy (works w/out - due to transaction - 
   // dirty var after transaction ofc)
-  fieldMap = {...fieldMap} // TODO test: fieldMap must not result dirty
+  // TODO test: fieldMap must not result dirty
+  // Object.assign() triggers setters, whereas spread syntax doesn't
+  fieldMap = {...fieldMap}
   // fieldMap = Object.assign({}, fieldMap)
   
   fieldMapKeys.forEach((key: string) => {

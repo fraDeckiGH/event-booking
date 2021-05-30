@@ -1,9 +1,8 @@
 // * interfaces, types, etc...
 
-import faunadb/* , { query as q } */ from "faunadb";
+import faunadb from "faunadb";
 
 export {
-  Context,
   CursorWrap,
   dbExpr,
   GConstructor,
@@ -12,12 +11,9 @@ export {
 /**
  * resolver param
  */
-type Context = Readonly<{
+/* type Context = Readonly<{
   db: faunadb.Client
-}>
-// interface Context { // ? how-to Readonly<interface>
-//   db: faunadb.Client
-// }
+}> */
 
 type CursorWrap = Readonly<{
   cursor: any[]
@@ -30,10 +26,10 @@ type dbExpr = faunadb.Expr // already readonly
 fixes TypeGraphQL's ClassType which lets add props to a class
 w/out error
 
-interface ClassType<T = any> { // incorrect
+interface ClassType<T = any> { // * incorrect
     new (...args: any[]): T;
 }
-interface ClassTypeFix<T = {}> { // correct
+interface ClassTypeFix<T = {}> { // * correct
   new (...args: any[]): T;
 }
 

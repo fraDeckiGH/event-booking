@@ -3,10 +3,19 @@ import PageInfo from "../typeDef/pageInfo"
 import { GConstructor } from "../typeTS"
 
 export default 
-function ListResponseMxn<TBase extends GConstructor>(Base: TBase) {
+function ListResponseMxn<TBase extends GConstructor, 
+  TNode,
+>(Base: TBase, { 
+  Node: NodeV, // "Node" collides w/ TS'; 'V' stays for Value
+}: {
+  Node: TNode
+}) {
   
   @ObjectType({ isAbstract: true })
   class Class extends Base {
+    @Field(() => [NodeV], { nullable: true })
+    node?: TNode[]
+    
     @Field({ nullable: true })
     pageInfo?: PageInfo
   }
