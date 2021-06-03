@@ -19,8 +19,8 @@ export type Maybe<T> = T | undefined;
 
 export function prodLogging() {
   if (process.env.NODE_ENV === "production") {
-    // console.error = () => {};
-    console.log = () => {};
+    // console.error = () => {}
+    console.log = () => {}
 
     // reminder: there are others
   }
