@@ -16,7 +16,9 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 -- TODO --
 
-
+> apply 'microservices' architecture to proj structure
+> finish Fastify & Mercurius setup
+> can a custom @decorator do what I wanted to do w/ DI? (also look into Fastify)
 
 -- TODO later on --
 

@@ -49,7 +49,7 @@ export default class UserResolver {
   
   @QueryTg(() => UserListResponse)
   /* static  */async listUser(
-    // @Root() parent: any,
+    // @Root() root: any,
     @Args() args: ListUserArgs,
     // @Args() { pageInfo }: ListUserArgs,
     // @Ctx() ctx: Context,
@@ -82,8 +82,8 @@ export default class UserResolver {
                 Match(Index(indexName), INDEXING_FIELD.value),
                 { 
                   after: parseCursor({ 
-                    cursorWrap: pageInfo.cursorAfter, 
                     collectionName, 
+                    cursorWrap: pageInfo.cursorAfter, 
                   }),
                   size: pageInfo.size, 
                 }

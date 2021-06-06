@@ -6,6 +6,7 @@ export {
   CursorWrap,
   dbExpr,
   GConstructor,
+  Maybe,
 }
 
 /**
@@ -37,3 +38,7 @@ from TypeScript's docs
 type GConstructor<T = {}> = new (...args: any[]) => T
  */
 type GConstructor<T = {}> = new (...args: any[]) => T
+
+type Maybe<T> = T | undefined
+// type Nullable<T> = T | null
+// type Optional<T> = T | null | undefined

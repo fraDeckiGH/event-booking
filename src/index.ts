@@ -1,67 +1,22 @@
 import "reflect-metadata";
-import cors from "cors";
 import fastify from "fastify";
 import fastifyCors from "fastify-cors";
-import express, { json } from "express";
 import mercurius from "mercurius";
-import { graphqlHTTP } from "express-graphql";
 import { buildSchema } from "type-graphql";
-import { prodLogging } from "./util";
+import { prodSetup } from "./util";
 
-prodLogging()
-// const app = express()
+prodSetup()
+const app = fastify({
+  // #region logger
+  // https://www.fastify.io/docs/latest/Logging/
+  /* logger: {
+    // https://github.com/pinojs/pino/blob/master/docs/api.md#loggerlevel-string-gettersetter
+    level: "error",
+  }, */
+  // #endregion
+})
 
 // * middleware
-
-// app.use(
-//   // TODO explore pkg and its need/usage 
-//   // https://github.com/expressjs/compression
-//   // compress all responses
-//   // compression(),
-
-//   // Apollo Studio
-//   cors(),
-
-//   // bodyParser
-//   json()
-//   // urlencoded({ extended: false }),
-// )
-
-// !async function() {
-//   try {
-//     app.use(
-//       "/graphql",
-//       graphqlHTTP({
-        
-//         // context,
-//         // rootValue,
-//         schema: await buildSchema({
-//           emitSchemaFile: {
-//             commentDescriptions: true,
-//             path: "gen/schema.gql",
-//             // by default the printed schema is sorted alphabetically
-//             // sortedSchema: false,
-//           },
-//           // orphanedTypes: [ PersonResolver ],
-//           resolvers: [`${__dirname}/resolver/*.{js,ts}`],
-//         }),
-        
-//       })
-//     );
-
-//     // * server start
-//     app.listen(4000);
-//   } catch (e) {
-//     console.error(e);
-//   }
-// }()
-
-
-
-
-
-
-const app = fastify()
 
 app.register(fastifyCors)
 
@@ -69,6 +24,9 @@ app.register(fastifyCors)
   try {
     app.register(mercurius, {
       
+      // context,
+      jit: 1, // ? is 1 ok?
+      // rootValue,
       schema: await buildSchema({
         emitSchemaFile: {
           commentDescriptions: true,
@@ -79,7 +37,6 @@ app.register(fastifyCors)
         // orphanedTypes: [ PersonResolver ],
         resolvers: [`${__dirname}/resolver/*.{js,ts}`],
       }),
-      jit: 1, // ? is 1 ok?
       
     });
     
@@ -89,18 +46,3 @@ app.register(fastifyCors)
     console.error(e)
   }
 }()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

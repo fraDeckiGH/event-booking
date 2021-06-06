@@ -2,7 +2,7 @@
 
 import { query as q } from "faunadb";
 import ResponseT from "./typeDef/response";
-import { CursorWrap, dbExpr } from "./typeTS";
+import { CursorWrap, dbExpr, Maybe } from "./typeTS";
 import { SELECT_DEFAULT_VALUE } from "./value";
 
 const {
@@ -84,7 +84,7 @@ const parseCursor = function({
   cursorWrap,
 }: { 
   collectionName: string,
-  cursorWrap?: CursorWrap,
+  cursorWrap: Maybe<CursorWrap>,
 }) {
   // console.log("parseCursor()", cursorWrap)
   if (cursorWrap) {

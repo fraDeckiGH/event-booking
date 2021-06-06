@@ -1,5 +1,11 @@
 
-export enum ResponseId {
+export {
+  // ResponseId,
+  prodSetup,
+  // SchemaTypeOpt,
+}
+
+enum ResponseId {
   DocAlreadyExists = "doc-already-exists",
   DocCreated = "doc-created",
   DocDeleted = "doc-deleted",
@@ -10,22 +16,17 @@ export enum ResponseId {
   Unauthorized = "unauthorized",
 }
 
-export enum SchemaTypeOpt {
+enum SchemaTypeOpt {
   MaxDate = 4102444800000, // 2100
   MaxPrice = 999999,
 }
 
-export type Maybe<T> = T | undefined;
 
-export function prodLogging() {
+function prodSetup() {
   if (process.env.NODE_ENV === "production") {
-    // console.error = () => {}
+    console.error = () => {}
     console.log = () => {}
 
     // reminder: there are others
   }
 }
-
-/* export function makeString<T>(val: T) {
-	return val + "";
-} */
