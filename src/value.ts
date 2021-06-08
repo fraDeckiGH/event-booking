@@ -2,7 +2,7 @@
 
 import faunadb from "faunadb"
 
-export {
+export { 
   DB,
   INDEXING_FIELD,
   SELECT_DEFAULT_VALUE,

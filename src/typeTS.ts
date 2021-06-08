@@ -2,7 +2,7 @@
 
 import faunadb from "faunadb";
 
-export {
+export type {
   CursorWrap,
   dbExpr,
   GConstructor,
