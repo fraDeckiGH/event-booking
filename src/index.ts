@@ -35,7 +35,9 @@ app.register(fastifyCors)
           // sortedSchema: false,
         },
         // orphanedTypes: [ PersonResolver ],
-        resolvers: [`${__dirname}/resolver/*.{js,ts}`],
+        resolvers: [ 
+          `${__dirname}/component/*/resolver.ts`,
+        ],
       }),
       
     });

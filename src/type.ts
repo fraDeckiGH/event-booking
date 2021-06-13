@@ -4,7 +4,7 @@ import faunadb from "faunadb";
 
 export type {
   CursorWrap,
-  dbExpr,
+  DbExpr,
   GConstructor,
   Maybe,
 }
@@ -21,7 +21,7 @@ type CursorWrap = Readonly<{
   cursor_id: string
 }>
 
-type dbExpr = faunadb.Expr // already readonly
+type DbExpr = faunadb.Expr // already readonly
 
 /**
 fixes TypeGraphQL's ClassType which lets add props to a class

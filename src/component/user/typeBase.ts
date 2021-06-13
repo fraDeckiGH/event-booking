@@ -1,9 +1,9 @@
 import { Field, InputType, ObjectType } from "type-graphql"
-import { EmailAddress, NonEmptyString } from "../scalar-export"
+import { EmailAddress, NonEmptyString } from "../../scalar"
 
 @InputType(/* "UserBaseInput",  */{ isAbstract: true })
 @ObjectType({ isAbstract: true })
-export default class UserBase {
+export class TypeBase {
   // TODO I want this field to be:
   // required
   // unique (case INsensitive)

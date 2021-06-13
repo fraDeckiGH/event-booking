@@ -1,9 +1,9 @@
 import { Field, ObjectType } from "type-graphql"
-import PageInfo from "../typeDef/pageInfo"
-import { GConstructor } from "../typeTS"
+import { PageInfo } from "../component/pageInfo"
+import { GConstructor } from "../type"
 
-export default 
-function ListResponseMxn<TBase extends GConstructor, 
+export const ListResponseMxn = function <
+  TBase extends GConstructor, 
   TNode,
 >(Base: TBase, { 
   Node: NodeV, // "Node" collides w/ TS'; 'V' stays for Value

@@ -1,9 +1,9 @@
-import { Field, ObjectType } from "type-graphql";
-import { NonEmptyString } from "../scalar-export";
+import { Field, ObjectType } from "type-graphql"
+import { NonEmptyString } from "../scalar"
 
 // "Response" collides w/ TS'
 @ObjectType("Response"/* , { isAbstract: true } */)
-export default class ResponseT {
+export class ResponseT {
   @Field(() => NonEmptyString, { nullable: true })
   code?: string
   

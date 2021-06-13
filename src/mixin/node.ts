@@ -1,16 +1,16 @@
 import { Field, ID, ObjectType } from "type-graphql"
-import { Timestamp } from "../scalar-export"
-import { GConstructor } from "../typeTS"
+import { GConstructor } from "../type"
+import { Timestamp } from "../scalar"
 
-export default 
-function NodeMxn<TBase extends GConstructor>(Base: TBase) {
+export const NodeMxn = function 
+<TBase extends GConstructor>(Base: TBase) {
   
   @ObjectType({ isAbstract: true })
   class Class extends Base {
-    @Field(type => ID)
+    @Field(() => ID)
     readonly id!: string
     
-    @Field(type => Timestamp)
+    @Field(() => Timestamp)
     readonly ts!: number
   }
   

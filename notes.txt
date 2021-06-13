@@ -16,7 +16,9 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 -- TODO --
 
-> finish Fastify & Mercurius setup
+> finish setup 
+  Fastify (+cors pkg)
+  Mercurius
 > DI: look into Fastify
 
 -- TODO later on --

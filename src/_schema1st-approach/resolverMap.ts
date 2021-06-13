@@ -1,8 +1,8 @@
 import { query as q } from "faunadb";
 import { fieldsList, fieldsMap } from "graphql-fields-list";
-import { packCursor, packQueryError, parseCursor } from "../func";
-import { Context } from "../typeTS";
-import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../value";
+import { packCursor, packQueryError, parseCursor } from "../node";
+import { Context } from "../node";
+import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../node";
 
 const {
   Abort,
@@ -104,25 +104,25 @@ export default {
       //   outside transaction too?
       try {
         const res: any = await db.query(
-          // Abort("aborted 4 test"),
-          Abort("query underway"),
+          // q.Abort("aborted 4 test"),
+          q.Abort("query underway"),
           
           /* q.Map(
             input,
             // ["296142445081526789", "296142424389976581", "296127950624916997"],
-            Lambda("inputDoc", 
-              Let(
+            q.Lambda("inputDoc", 
+              q.Let(
                 {
-                  createdDoc: Create(Collection("user"), {
+                  createdDoc: q.Create(q.Collection("user"), {
                     // data: Var("inputDoc")
-                    data: Merge(
-                      Var("inputDoc"),
+                    data: q.Merge(
+                      q.Var("inputDoc"),
                       { [INDEXING_FIELD.key]: INDEXING_FIELD.value },
                     ),
                   }),
                   // createdDoc: Get(Ref(Collection("user"), Var("inputDoc"))),
                   docToReturn: packDocument({
-                    doc: Var("createdDoc"), 
+                    doc: q.Var("createdDoc"), 
                     fieldMap,
                     fieldMapKeys,
                   }),
