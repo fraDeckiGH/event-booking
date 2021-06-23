@@ -16,8 +16,7 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 -- TODO --
 
-> finish setup 
-  Fastify (+cors pkg)
+> finish setup
   Mercurius
 > DI: look into Fastify
 
@@ -29,6 +28,6 @@ auth w/ Firebase (update .gitignore)
 -- packages --
 
 move to dependencies?: 
-cors (usage code edits needed if it stays as devDep)
+cors: edit needed if it stays as devDep (hint: use dynamic import)
 
 

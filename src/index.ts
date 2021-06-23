@@ -15,10 +15,9 @@ const app = fastify({
   }, */
   // #endregion
 })
-
-// * middleware
-
-app.register(fastifyCors)
+  // * middleware
+  .register(fastifyCors)
+// app.register(fastifyCors)
 
 !async function() {
   try {
@@ -40,11 +39,13 @@ app.register(fastifyCors)
         ],
       }),
       
-    });
+    })
     
     // * server start
     app.listen(4000)
   } catch (e) {
     console.error(e)
+    // fastify.log.error(err)
+    process.exit(1)
   }
 }()
