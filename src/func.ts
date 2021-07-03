@@ -1,39 +1,9 @@
 // * helper funcs
 
-import /* faunadb,  */{ query as q } from "faunadb";
-import { CursorWrap, dbExpr } from "./type";
+import { query as q } from "faunadb";
+import { ResponseT } from "./typeDef/response";
+import { CursorWrap, DbExpr, Maybe } from "./type";
 import { SELECT_DEFAULT_VALUE } from "./value";
-
-const {
-  Abort,
-  Add,
-  Call,
-  Collection,
-  Collections,
-  Contains,
-  Create,
-  Do,
-  Documents,
-  Exists,
-  Get,
-  Identity,
-  If,
-  Index,
-  IsArray,
-  Join,
-  Lambda,
-  Let,
-  Match,
-  Not,
-  Now,
-  Paginate,
-  Ref,
-  Select,
-  Subtract,
-  ToArray,
-  Update,
-  Var,
-} = q;
 
 export {
   packCursor,
@@ -48,22 +18,22 @@ export {
 
 /**
 return a cursor (to send the client) packed conveniently 
-for being parsed in (a future) next pagination
+for parsing in (a future) next pagination
  */
 const packCursor = function({
   cursor,
   indexFields_length,
 }: {
-  cursor: dbExpr,
+  cursor: DbExpr,
   indexFields_length: number,
 }) {
-  return If(
+  return q.If(
     // if (condition)
-    IsArray(cursor),
+    q.IsArray(cursor),
     // then
     {
       cursor,
-      cursor_id: Select(
+      cursor_id: q.Select(
         [indexFields_length, "id"], 
         cursor, 
         SELECT_DEFAULT_VALUE
@@ -83,13 +53,13 @@ const parseCursor = function({
   cursorWrap,
 }: { 
   collectionName: string,
-  cursorWrap: CursorWrap,
+  cursorWrap: Maybe<CursorWrap>,
 }) {
   // console.log("parseCursor()", cursorWrap)
   if (cursorWrap) {
     const { cursor, cursor_id } = cursorWrap;
     cursor[cursor.length - 1] = 
-      Ref(Collection(collectionName), cursor_id);
+      q.Ref(q.Collection(collectionName), cursor_id);
     return cursor;
   }
 }
@@ -110,11 +80,13 @@ const packDocument = function({
 }) {
   // shallow copy (works w/out - due to transaction - 
   // dirty var after transaction ofc)
-  fieldMap = {...fieldMap} // TODO test: fieldMap must not result dirty
+  // TODO test: fieldMap must not result dirty
+  // Object.assign() triggers setters, whereas spread syntax doesn't
+  fieldMap = { ...fieldMap }
   // fieldMap = Object.assign({}, fieldMap)
   
   fieldMapKeys.forEach((key: string) => {
-    fieldMap[key] = Select(fieldMap[key], doc)
+    fieldMap[key] = q.Select(fieldMap[key], doc)
   })
   
   // console.log("fieldMap", fieldMap)
@@ -127,11 +99,10 @@ const packQueryError = function({
   error: e,
 }: {
   error: any,
-}) {
+}): ResponseT {
   console.error("catch", e)
-  // TODO create type for obj returned
   return { 
-    errorCode: e.description, // Abort("description")
+    code: e.description, // Abort("description")
   }
 }
 

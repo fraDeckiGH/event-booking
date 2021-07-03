@@ -1,13 +1,8 @@
-/** @format */
-
-import faunadb, { query as q } from "faunadb";
-import { fieldsList, fieldsMap, fieldsProjection } from "graphql-fields-list";
-import User from "../model/user";
-import { packCursor, packDocument, packQueryError, parseCursor } from "./func";
-import { Context } from "./type";
-import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "./value";
-// import { Event } from "../model/event";
-// import { User } from "../model/user";
+import { query as q } from "faunadb";
+import { fieldsList, fieldsMap } from "graphql-fields-list";
+import { packCursor, packQueryError, parseCursor } from "../node";
+import { Context } from "../node";
+import { INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../node";
 
 const {
   Abort,
@@ -69,7 +64,7 @@ export default {
     },
 
     createUser: async (parent: any, args: any, ctx: Context, info: any) => {
-      const { input } = args;
+      const { input } = args; // ? what if input is []
       const { db } = ctx;
       
       const fieldMap: any = {};
@@ -92,7 +87,7 @@ export default {
       // ! trying to list class fields
       // and looking in Typescript docs for knowledge
       // ? maybe I should define a (sort of) global type
-      console.log(`keys2`, Object.keys(new User()) )
+      // console.log(`keys2`, Object.keys(new User()) ) // * works!
       
       input.forEach((obj: object) => {
         // new User({
@@ -101,30 +96,33 @@ export default {
         // })
       });
       
+      // * the very INITIAL GOAL was to add the 'indexing field' 
+      // * automatically(see "Merge()") to created docs
       // ! was working on this resolver
       // - putting validation outside transaction
       // - handle (if needed) docs to return the client 
       //   outside transaction too?
       try {
         const res: any = await db.query(
-          Abort("aborted 4 test"),
+          // q.Abort("aborted 4 test"),
+          q.Abort("query underway"),
           
           /* q.Map(
             input,
             // ["296142445081526789", "296142424389976581", "296127950624916997"],
-            Lambda("inputDoc", 
-              Let(
+            q.Lambda("inputDoc", 
+              q.Let(
                 {
-                  createdDoc: Create(Collection("user"), {
+                  createdDoc: q.Create(q.Collection("user"), {
                     // data: Var("inputDoc")
-                    data: Merge(
-                      Var("inputDoc"),
+                    data: q.Merge(
+                      q.Var("inputDoc"),
                       { [INDEXING_FIELD.key]: INDEXING_FIELD.value },
                     ),
                   }),
                   // createdDoc: Get(Ref(Collection("user"), Var("inputDoc"))),
                   docToReturn: packDocument({
-                    doc: Var("createdDoc"), 
+                    doc: q.Var("createdDoc"), 
                     fieldMap,
                     fieldMapKeys,
                   }),
@@ -138,6 +136,7 @@ export default {
         
         // console.log("res", res)
         return {
+          code: "200",
           node: res,
         };
       } catch (e) {
@@ -222,6 +221,7 @@ export default {
         console.log("res", res)
         // console.log("res.data", res.data)
         return {
+          code: "200",
           pageInfo: {
             cursorAfter: res.after,
           },

@@ -4,8 +4,5 @@
 # the following features:
 # https://marketplace.visualstudio.com/items?itemName=GraphQL.vscode-graphql
 
-
 schema: []
 # documents: src/**/*.{graphql, ts, tsx}
-
-

@@ -16,22 +16,16 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 -- TODO --
 
-class-validator vs js-validator for schema validations
+> validation w/ ajv(?)
 
 -- TODO later on --
 
 auth w/ Firebase (update .gitignore)
 
 
--- improvements --
-
-switch to apollo-server? (what about Yoga or the others?)
-
-
 -- packages --
 
-move to dependencies?:
-copyfiles
-cors (usage code edits needed if it stays as devDep)
+move to dependencies?: 
+cors: edit needed if it stays as devDep (hint: use dynamic import)
 
 

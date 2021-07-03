@@ -7,6 +7,8 @@ scalar NonEmptyString
 scalar PositiveInt
 scalar Timestamp
 
+# all Response.code(s) could be stored in a GraphQL's enum
+
 interface Node {
   id: ID!
 	ts: Timestamp! # out of place here?
@@ -16,9 +18,9 @@ type Event implements Node {
 	id: ID!
 	ts: Timestamp!
 	creator: User!
-	date: DateTime!
-	description: NonEmptyString!
-	price: Currency!
+	date: DateTime
+	description: NonEmptyString
+	price: Currency
 	title: NonEmptyString!
 }
 input EventInput {
@@ -34,7 +36,7 @@ type User implements Node {
 	ts: Timestamp!
 	# createdEvents: [Event!]
 	email: EmailAddress!
-	nickname: NonEmptyString!
+	nickname: NonEmptyString
 }
 input UserInput {
 	email: EmailAddress!
@@ -43,23 +45,23 @@ input UserInput {
 }
 
 interface Response {
-  errorCode: NonEmptyString
+  code: NonEmptyString
 }
 interface ListResponse {
-  errorCode: NonEmptyString
+  code: NonEmptyString
   pageInfo: PageInfo
 }
 
 type EventResponse implements Response {
-  errorCode: NonEmptyString
+  code: NonEmptyString
   node: [Event!]
 }
 type UserResponse implements Response {
-  errorCode: NonEmptyString
+  code: NonEmptyString
   node: [User!]
 }
 type UserListResponse implements ListResponse {
-  errorCode: NonEmptyString
+  code: NonEmptyString
 	pageInfo: PageInfo
   node: [User!]
 }
@@ -69,7 +71,7 @@ type PageInfo {
 }
 input PageInfoInput {
 	cursorAfter: JSON
-	size: PositiveInt
+	size: PositiveInt!
 }
 
 type Mutation {
@@ -78,11 +80,9 @@ type Mutation {
 }
 type Query {
 	listEvent: EventResponse!
-	listUser(pageInfo: PageInfoInput): UserListResponse!
+	listUser(pageInfo: PageInfoInput!): UserListResponse!
 }
 schema {
 	mutation: Mutation
 	query: Query
 }
-
-

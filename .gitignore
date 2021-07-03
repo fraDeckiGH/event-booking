@@ -358,14 +358,13 @@ dist
 # dist/
 gen/
 
-# remove/move to _just4ref when done transitioning to Fauna
-Mevent.ts
-Mresolver.ts
-Muser.ts
-
 # local files
 # uploads/*
 # !uploads/readme.txt
+
+src/_schema1st-approach/_Mevent.ts
+src/_schema1st-approach/_Muser.ts
+
 
 
 
