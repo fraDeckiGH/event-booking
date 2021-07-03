@@ -1,6 +1,6 @@
 import { ObjectType } from "type-graphql"
 import { NodeMxn } from "../../mixin/node"
-import { TypeBase } from "./typeBase"
+import { UserBase } from "./user.base"
 
 @ObjectType()
-export class User extends NodeMxn(TypeBase) {}
+export class User extends NodeMxn(UserBase) {}

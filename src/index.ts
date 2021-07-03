@@ -35,7 +35,7 @@ const app = fastify({
         },
         // orphanedTypes: [ PersonResolver ],
         resolvers: [ 
-          `${__dirname}/component/*/resolver.ts`,
+          `${__dirname}/component/**/*.resolver.ts`,
         ],
       }),
       
@@ -46,6 +46,7 @@ const app = fastify({
   } catch (e) {
     console.error(e)
     // fastify.log.error(err)
-    process.exit(1)
+    process.exit(1) // the app won't be gracefully exited
+    // see also: https://nodejs.dev/learn/how-to-exit-from-a-nodejs-program
   }
 }()

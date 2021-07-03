@@ -3,7 +3,7 @@ import { EmailAddress, NonEmptyString } from "../../scalar"
 
 @InputType(/* "UserBaseInput",  */{ isAbstract: true })
 @ObjectType({ isAbstract: true })
-export class TypeBase {
+export class UserBase {
   // TODO I want this field to be:
   // required
   // unique (case INsensitive)

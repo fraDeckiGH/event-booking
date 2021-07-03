@@ -1,7 +1,7 @@
 import { Field, InputType } from "type-graphql"
 import { JSONScalar, PositiveInt } from "../../scalar"
 import { CursorWrap } from "../../type"
-import { PageInfo } from "./pageInfo"
+import { PageInfo } from "./pageInfo.type"
 
 @InputType()
 export class PageInfoInput extends PageInfo {

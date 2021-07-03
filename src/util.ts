@@ -26,7 +26,6 @@ function prodSetup() {
   if (process.env.NODE_ENV === "production") {
     console.error = () => {}
     console.log = () => {}
-
     // reminder: there are others
   }
 }

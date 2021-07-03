@@ -1,16 +1,10 @@
 import { query as q } from "faunadb";
 import { fieldsMap } from "graphql-fields-list";
-import { Args, ArgsType, Field, Info, Query as QueryTg, Resolver } from "type-graphql";
+import { Args, Info, Query as QueryTg, Resolver } from "type-graphql";
 import { packCursor, packQueryError, parseCursor } from "../../func";
 import { DB, INDEXING_FIELD, SELECT_DEFAULT_VALUE } from "../../value";
-import { PageInfoInput } from "../pageInfo";
-import { UserListResponse } from "./userListResponse";
-
-@ArgsType()
-class ListUserArgs {
-  @Field()
-  readonly pageInfo!: PageInfoInput
-}
+import { ListUserArgs } from "./user.resolver.args";
+import { UserListResponse } from "./userListResponse.type";
 
 @Resolver()
 export class UserResolver {
