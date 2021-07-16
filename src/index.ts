@@ -1,9 +1,10 @@
-import "reflect-metadata";
-import fastify from "fastify";
-import fastifyCors from "fastify-cors";
-import mercurius from "mercurius";
-import { buildSchema } from "type-graphql";
-import { prodSetup } from "./util";
+import "reflect-metadata"
+import fastify from "fastify"
+import fastifyCors from "fastify-cors"
+import mercurius from "mercurius"
+import { buildSchema } from "type-graphql"
+import { prodSetup } from "./util.ts"
+import "dotenv/load.ts"
 
 prodSetup()
 const app = fastify({
@@ -46,7 +47,8 @@ const app = fastify({
   } catch (e) {
     console.error(e)
     // fastify.log.error(err)
-    process.exit(1) // the app won't be gracefully exited
+    // process.exit(1) // the app won't be gracefully exited
+    Deno.exit(1)
     // see also: https://nodejs.dev/learn/how-to-exit-from-a-nodejs-program
   }
 }()

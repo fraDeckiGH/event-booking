@@ -1,0 +1,27 @@
+# ? https://velociraptor.run/docs/declarative-deno-options/
+# ? https://doc.deno.land/https/deno.land/x/velociraptor/src/scripts_config.ts
+
+# * global options
+# allow:
+#   - net
+#   - read
+# imap: importMap.json
+# noCheck: true
+
+# * script specific options
+scripts:
+  build: 
+    cmd: deno bundle index.ts bundle.js
+  start:
+    cmd: index.ts
+    imap: importMap.json
+    noCheck: true
+    tsconfig: tsconfig.json
+    unstable: true
+    watch: true
+
+# * unsorted
+# cachedOnly: true
+# lock: lock.json
+# log: debug | info
+# noRemote: true

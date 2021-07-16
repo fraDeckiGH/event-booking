@@ -1,0 +1,11 @@
+{
+  "imports": {
+    "dotenv": "https://deno.land/x/dotenv@v2.0.0/mod.ts",
+    "dotenv/": "https://deno.land/x/dotenv@v2.0.0/",
+    "fastify": "https://cdn.skypack.dev/fastify@^3.18.1",
+    "mercurius": "https://cdn.skypack.dev/mercurius@^7.9.1?dts",
+    "type-graphql": "https://cdn.skypack.dev/type-graphql@^1.1.1",
+    "": "",
+    "": ""
+  }
+}
