@@ -77,14 +77,4 @@
     // "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
   },
   
-  // "typeAcquisition": {
-  //   "include": ["fastify"]
-  // }
-  
-  "include": [
-    "src",
-    "types",
-  ],
-  // "exclude": ["node_modules"],
-  
 }
