@@ -24,7 +24,7 @@ const app = fastify({
     app.register(mercurius, {
       
       // context,
-      jit: 1, // ? is 1 ok?
+      jit: 1,
       // rootValue,
       schema: await buildSchema({
         emitSchemaFile: {

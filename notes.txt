@@ -18,10 +18,6 @@ https://www.youtube.com/playlist?list=PL55RiY5tL51rG1x02Yyj93iypUuHYXcB_
 
 > validation w/ ajv(?)
 
--- TODO later on --
-
-auth w/ Firebase (update .gitignore)
-
 
 -- packages --
 
