@@ -31,8 +31,8 @@
     "faunadb": "^4.3.0",
     "graphql": "^15.5.1",
     "graphql-fields-list": "^2.2.4",
+    "graphql-helix": "^1.7.0",
     "graphql-scalars": "^1.10.0",
-    "mercurius": "^8.1.2",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1"
   },

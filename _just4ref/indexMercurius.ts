@@ -1,5 +1,3 @@
-import graphqlHelix from "graphql-helix";
-
 import "reflect-metadata";
 import fastify from "fastify";
 import fastifyCors from "fastify-cors";
@@ -23,17 +21,6 @@ const app = fastify({
 
 !async function() {
   try {
-    app.register("/graphql", async (req, res) => {
-      // Create a generic Request object that can be consumed by Graphql Helix's API
-      const request = {
-        body: req.body,
-        headers: req.headers,
-        method: req.method,
-        query: req.query,
-      }
-    })
-    
-    
     app.register(mercurius, {
       
       // context,
