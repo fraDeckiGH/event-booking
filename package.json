@@ -27,12 +27,12 @@
   "homepage": "https://github.com/fraDeckiGH/event-booking#readme",
   "dependencies": {
     "class-validator": "^0.13.1",
-    "fastify": "^3.18.1",
+    "fastify": "^3.20.2",
     "faunadb": "^4.3.0",
     "graphql": "^15.5.1",
     "graphql-fields-list": "^2.2.4",
     "graphql-scalars": "^1.10.0",
-    "mercurius": "^7.9.1",
+    "mercurius": "^8.1.2",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1"
   },
@@ -40,8 +40,8 @@
     "@types/fastify-cors": "^2.1.0",
     "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
-    "fastify-cors": "^6.0.1",
-    "graphql-config": "^3.3.0",
+    "fastify-cors": "^6.0.2",
+    "graphql-config": "^4.0.1",
     "prettier": "2.3.2",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.3.5"
